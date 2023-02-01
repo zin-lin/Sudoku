@@ -29,7 +29,6 @@ public class SudokuEngine {
             yArray[i-1] = i;
             refYArray[i-1] = i;
         }
-
         return array;
     }
 
@@ -41,27 +40,36 @@ public class SudokuEngine {
             String leftBound  = "║  ";
             String rightBound = "  ║ ";
             String lowerBound = "╚═════╝ ";
-
+            String printer ="";
             // each line is written
             for (int i1 = 0; i1 < xAxis; i1++)
             {
                 String ending = (i1+1) %3 == 0? "  ":"";
+                printer += (upperBound + ending);
                 System.out.print(upperBound + ending);
             }
+
             System.out.print("\n");
+            printer+="\n";
             for (int i1 = 0; i1 < xAxis; i1++)
             {
                 String randomizer = "_";
                 String ending = (i1+1) %3 == 0? "  ":"";
+                printer += (leftBound + randomizer + rightBound + ending);
                 System.out.print(leftBound + randomizer + rightBound + ending);
             }
             System.out.print("\n");
+            printer+="\n";
+
             for (int i1 = 0; i1 < xAxis; i1++)
             {
                 String ending = (i1+1) %3 == 0? "  ":"";
+                printer += lowerBound + ending;
                 System.out.print(lowerBound + ending);
             }
             System.out.print("\n");
+            printer+="\n";
+
 
             if ((i+1) % 3 == 0 ){
                 System.out.print("\n");

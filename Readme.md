@@ -3,6 +3,10 @@
 - added `dockers`
 - added The `Game Engine🎮`
 
+## Objectives🎯
+- `9 x 9` grid with `Easy` `Medium` and `Hard` Level
+- `X x Y` grid 
+
 ### Author 👨‍💻
 - Zin Lin Htun
 
@@ -13,6 +17,7 @@
 - `Dockerfile` 🐳
 
 ### ChangeLog 💻
+- Added `Easy Sudoku Class` - `(17:22 2023/02/01)`
 - Added `Separator` - `(16:36 2023/02/01)`
 - Added Multi-dimensional reshape Support - `(16:31 2023/02/01)`
 - Added `Dockerfile` - `(23:50 2023/01/31)`
