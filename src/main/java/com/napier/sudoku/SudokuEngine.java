@@ -9,6 +9,11 @@ public class SudokuEngine {
     private int xAxis;
     private int yAxis;
 
+    //Separator
+    private static void _separate (){
+        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    }
+
     // Generate Sudoku Array - two dimensional
     private static int [][] _generateSudokuArray (int xAxis, int yAxis) {
 
