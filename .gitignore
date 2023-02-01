@@ -1,3 +1,6 @@
 .idea
 ./target
 .class
+./.idea
+.gitignore
+.bat

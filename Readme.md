@@ -17,7 +17,7 @@
 - `Dockerfile` 🐳
 
 ### ChangeLog 💻
-- Added `SudokuGenarator` and `Helper` classes - `(19:10 2023/02/01)`
+- Added `SudokuGenarator` and `Helper` classes to check grid- `(19:10 2023/02/01)`
 - Added `Easy Sudoku Class` - `(17:22 2023/02/01)`
 - Added `Separator` - `(16:36 2023/02/01)`
 - Added Multi-dimensional reshape Support - `(16:31 2023/02/01)`
