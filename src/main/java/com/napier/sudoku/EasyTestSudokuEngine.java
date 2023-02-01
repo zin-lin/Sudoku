@@ -3,6 +3,7 @@ package com.napier.sudoku;
 /// 9X9 ONLY
 public class EasyTestSudokuEngine {
 
+    // Easy Sudoku Writer
     public EasyTestSudokuEngine(){
         for (int i = 0; i <9; i++) {
             for (int i1 = 0; i1 < 9; i1++) {

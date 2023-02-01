@@ -1,7 +1,7 @@
-# Sudoku Game Grid
+# Sudoku Game Grid🎮
 - added `classes`
 - added `dockers`
-- added The `Game Engine🎮`
+- added The `Game Engine`
 
 ## Objectives🎯
 - `9 x 9` grid with `Easy` `Medium` and `Hard` Level
@@ -13,10 +13,11 @@
 ### Tool Chain 🔨
 - `Java` ☕
 - `Maven`
-- `IntelliJ`
+- `IntelliJ`📱
 - `Dockerfile` 🐳
 
 ### ChangeLog 💻
+- Added `SudokuGenarator` and `Helper` classes - `(19:10 2023/02/01)`
 - Added `Easy Sudoku Class` - `(17:22 2023/02/01)`
 - Added `Separator` - `(16:36 2023/02/01)`
 - Added Multi-dimensional reshape Support - `(16:31 2023/02/01)`
