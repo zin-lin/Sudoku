@@ -7,7 +7,7 @@ import java.io.IOException;
 // @matric : 40542237@live.napier.ac.uk
 public class GameEngine {
     public static void main (String [] args){
-       // SudokuEngine sudokuEngine = new SudokuEngine(11,9); // Standard Sudoku
+        // SudokuEngine sudokuEngine = new SudokuEngine(); // Standard Sudoku
         EasyTestSudokuEngine easyTestSudokuEngine = new EasyTestSudokuEngine();
     }
 

@@ -110,7 +110,9 @@ public class SudokuEngine {
 
     //Constructor
     public SudokuEngine(){
-        
+        this.xAxis = 9; this.yAxis = 9; // set things
+        // write sudoku grid
+        _writeGrid(this.xAxis, this.yAxis);
     }
 
 }
