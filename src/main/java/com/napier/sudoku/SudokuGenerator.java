@@ -42,7 +42,8 @@ public class SudokuGenerator {
             }
 
             try {
-                ans = availables.get(1);
+                ans = availables.get(0);
+                xAxis.add(ans); // Adding to referenced material so the arr keeps getting longer
             } catch (Exception e) {
             }
         }
@@ -67,17 +68,21 @@ public class SudokuGenerator {
 
             int [] values = Randomiser.generate(4, yAxis); // values
             int [] positions = Randomiser.generate(4,xAxis); // positions
+
+            ArrayList <Integer> arr = new ArrayList<>();
+
+            Arrays.stream(values).parallel().forEach(integer -> arr.add(integer));
             int counter = 0;
             for (int pos : positions ){
                 // Addition if Necessary
+                Arrays.stream(values).forEach(e-> System.out.print(e));
+                System.out.println();
                 if (!(reference.contains(pos))) {
                     // pos being the position
                     array[i][pos] = values[counter];
                     reference.add(pos);
                 }
                 else {
-                    ArrayList <Integer> arr = new ArrayList<>();
-                    Arrays.stream(values).forEach(integer -> arr.add(integer));
                     array[i][pos] = this._sudoku_checker(array,values[counter],pos,yAxis, arr);
                 }//else
                 counter++;
