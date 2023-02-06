@@ -13,9 +13,11 @@ public class Randomiser {
         int [] array = new int [iteration];
         AtomicInteger i = new AtomicInteger();
         ArrayList<Integer>printer = new ArrayList<Integer>();
-        ThreadLocalRandom.current().ints(1, 9).distinct(). // Thread safety is done with this
-                limit(maxBound).forEach(integer -> {
+        ThreadLocalRandom.current().ints(1, maxBound).distinct(). // Thread safety is done with this // parallelstreaming
+                limit(iteration).forEach(integer -> {
                     // Lambda
+
+            //System.out.println(i.get());
             array[i.get()] = integer;
             i.getAndIncrement();
         });
