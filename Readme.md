@@ -1,5 +1,5 @@
 # Sudoku Game Grid🎮
-- added `classes`
+- added `classes` and `workflow for packaging`
 - added `dockers`
 - added The `Game Engine`
 
@@ -7,8 +7,11 @@
 - `9 x 9` grid with `Easy` `Medium` and `Hard` Level
 - `X x Y` grid 
 
-### Author 👨‍💻
+### Author 👨‍💻 and Certifications 📜
 - Zin Lin Htun
+- Project Status ![GitHub Workflow Status Master](https://img.shields.io/github/actions/workflow/status/zin-lin/Sudoku/main.yml)
+- [![LICENSE](https://img.shields.io/github/license/zin-lin/Sudoku.svg?style=flat-square)](https://github.com/zin-lin/Sudoku/blob/main/LICENCE)
+
 
 ### Tool Chain 🔨
 - `Java` ☕

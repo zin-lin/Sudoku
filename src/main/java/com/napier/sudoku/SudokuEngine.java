@@ -33,7 +33,9 @@ public class SudokuEngine {
     }
 
     // Writing the sudoku grid
-    private static void _writeGrid(int xAxis, int yAxis){
+    private static void _writeGrid(int yAxis, int xAxis){
+        SudokuGenerator generator = new SudokuGenerator(yAxis,xAxis);
+        int [][] array = generator.getMeGame(); // get the array
         for (int i = 0; i < yAxis; i++)
         {
             String upperBound = "╔═════╗ ";
@@ -53,7 +55,8 @@ public class SudokuEngine {
             printer+="\n";
             for (int i1 = 0; i1 < xAxis; i1++)
             {
-                String randomizer = "_";
+                int current = array[i][i1];
+                String randomizer = current >=1 && current <=xAxis ? Integer.toString(current) : "_";
                 String ending = (i1+1) %3 == 0? "  ":"";
                 printer += (leftBound + randomizer + rightBound + ending);
                 System.out.print(leftBound + randomizer + rightBound + ending);
@@ -110,7 +113,9 @@ public class SudokuEngine {
 
     //Constructor
     public SudokuEngine(){
-        
+        this.xAxis = 9; this.yAxis = 9; // set things
+        // write sudoku grid
+        _writeGrid(this.xAxis, this.yAxis);
     }
 
 }
