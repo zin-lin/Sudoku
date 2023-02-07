@@ -15,9 +15,6 @@ public class Randomiser {
         ArrayList<Integer>printer = new ArrayList<Integer>();
         ThreadLocalRandom.current().ints(1, maxBound).distinct(). // Thread safety is done with this // parallelstreaming
                 limit(iteration).forEach(integer -> {
-                    // Lambda
-
-            //System.out.println(i.get());
             array[i.get()] = integer;
             i.getAndIncrement();
         });
