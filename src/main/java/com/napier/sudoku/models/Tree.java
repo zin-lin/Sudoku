@@ -47,6 +47,14 @@ public class Tree <Template extends Object>{
         }
     }
 
+    public Tree(Template value)
+    {
+        this.value = value;
+        this.rightNode = new Tree<Template>();
+        this.leftNode = new Tree<Template>();
+
+    }
+
     private void _add_node (Tree<Template>t){
         if (this.value == null) {
             this.value = t.value;
@@ -74,10 +82,14 @@ public class Tree <Template extends Object>{
             ans= this.value;
         }
         else {
-            if (left)
-                ans = this.leftNode.get(times--, left);
-            else
-                ans = this.rightNode.get(times--, left);
+            if (left) {
+                times--;
+                ans = this.leftNode.get(times, true);
+            }
+            else{
+                times--;
+                ans = this.rightNode.get(times, false);
+            }
         }
         return ans;
     }
@@ -94,23 +106,46 @@ public class Tree <Template extends Object>{
             else if ((int) t < (int) value) {
                 this.leftNode.add(t);
             }
-            else if ((int)t == (int) value) {
+            else {
+                // equals
                 // Do Nth
             }
         }
     }
     // public methods end
 
+    // get smallest but not the one that has
     public Template getSmallest (Template not){
         Template ans = null;
-        if (this.leftNode.value == null || (int)(this.leftNode.value )== (int)not) {
-            ans = this.value;
+        if (this.leftNode.value == null || (int)this.leftNode.value == (int)not) {
+
+            if ((int)this.value == (int)not) {
+                try {
+                    ans = this.rightNode.getSmallest();
+                } catch (Exception err) {
+                    // Do nth
+                }
+            }
+            else ans = this.value;
         }
         else{
             ans = this.leftNode.getSmallest(not);
         }
         return ans;
     }
+
+    // Overloading // get actual loading
+    public Template getSmallest (){
+        Template ans = null;
+        if (this.leftNode.value == null ) {
+            ans = this.value;
+        }
+        else{
+            ans = this.leftNode.getSmallest();
+        }
+        return ans;
+    }
+
     public boolean contains(Template t){
         boolean ans = false;
         if (this.value != null) {

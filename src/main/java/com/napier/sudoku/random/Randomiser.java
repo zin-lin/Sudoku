@@ -1,5 +1,7 @@
 package com.napier.sudoku.random;
 
+import com.napier.sudoku.models.Tree;
+
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -17,6 +19,17 @@ public class Randomiser {
                 limit(iteration).forEach(integer -> {
             array[i.get()] = integer;
             i.getAndIncrement();
+        });
+        return  array;
+    }
+
+    // generate using tree
+    public static Tree<Integer> generateTreeList (int iteration, int maxBound){
+
+        Tree<Integer> array = new Tree<>(null,true);
+        ThreadLocalRandom.current().ints(1, maxBound).distinct(). // Thread safety is done with this // parallelstreaming
+                limit(iteration).forEach(integer -> {
+            array.add(integer);
         });
         return  array;
     }

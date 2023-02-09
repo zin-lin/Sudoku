@@ -1,5 +1,9 @@
 package com.napier.sudoku;
 
+import com.napier.sudoku.models.SudokuGrid;
+import com.napier.sudoku.models.Tree;
+import com.napier.sudoku.random.Randomiser;
+
 // Class SudokuEngine
 // Author : Zin Lin Htun
 // @matric : 40542237@live.napier.ac.uk
@@ -34,10 +38,13 @@ public class SudokuEngine {
 
     // Writing the sudoku grid
     private static void _writeGrid(int yAxis, int xAxis){
-        SudokuGenerator generator = new SudokuGenerator(yAxis,xAxis);
-        int [][] array = generator.getMeGame(); // get the array
+        SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
+        int [][] array = generator.getGame(); // get the array
+
         for (int i = 0; i < yAxis; i++)
         {
+
+            Tree<Integer>random = Randomiser.generateTreeList(5,9);
             String upperBound = "╔═════╗ ";
             String leftBound  = "║  ";
             String rightBound = "  ║ ";
@@ -55,8 +62,9 @@ public class SudokuEngine {
             printer+="\n";
             for (int i1 = 0; i1 < xAxis; i1++)
             {
+
                 int current = array[i][i1];
-                String randomizer = current >=1 && current <=xAxis ? Integer.toString(current) : "_";
+                String randomizer = random.contains(current)  ? Integer.toString(current): "-" ;
                 String ending = (i1+1) %3 == 0? "  ":"";
                 printer += (leftBound + randomizer + rightBound + ending);
                 System.out.print(leftBound + randomizer + rightBound + ending);
