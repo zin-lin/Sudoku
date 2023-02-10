@@ -1,4 +1,4 @@
-package com.napier.sudoku;
+package com.napier.sudoku.models;
 
 // Helper - The purpose of the helper class is to help check the Sudoku Grid
 // Author : Zin Lin Htun

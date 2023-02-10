@@ -1,7 +1,8 @@
 package com.napier.sudoku.models;
-// Purpose : Faster Accessing
+/* Purpose : Faster Accessing, O Log(n) for accessing O(n) for space allocation
 // Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk
+// @matric : 40542237@live.napier.ac.uk*/
+
 public class Tree <Template extends Object>{
     //private materials
     private Tree () {this.value = null; this.rightNode = null; this.leftNode = null;}
@@ -58,8 +59,11 @@ public class Tree <Template extends Object>{
     private void _add_node (Tree<Template>t){
         if (this.value == null) {
             this.value = t.value;
+            rightNode = new Tree<Template>();
+            leftNode = new Tree<Template>();
             this.rightNode = t.rightNode; // empty nodes saying terminal
             this.leftNode = t.leftNode; // empty nodes saying terminal
+            System.out.println(this.leftNode.value);
         } else {
             if ((int)t.value > (int)value){
                 // Compare if the check is bigger than value go right else left
@@ -165,15 +169,26 @@ public class Tree <Template extends Object>{
         boolean ans = false;
         if (this.value != null) {
             if ((int)this.value == (int)t) {
-                if (this.rightNode.value != null){
+                if (this.leftNode.value != null && this.rightNode.value != null ){
                     this.value = null;
-                    add(rightNode.value);
+                    _add_node(leftNode);
+                    //this.leftNode = null;
+                    _add_node(rightNode);
+                    //this.rightNode = null;
                 }
-                if (this.leftNode.value != null){
+
+                else if (this.rightNode.value != null ){
                     this.value = null;
-                    add(leftNode.value);
+                    _add_node(rightNode);
+                    //this.rightNode = null;
                 }
-                if (this.leftNode.value == null && this.rightNode.value == null)
+                else if (this.leftNode.value != null ){
+                    this.value = null;
+                    _add_node(leftNode);
+                    //this.leftNode = null;
+                }
+
+                else if (this.leftNode.value == null && this.rightNode.value == null)
                     this.value = null; // end tree
             } else if ((int) t > (int) value) {
                 // Compare if the check is bigger than value go right else left
