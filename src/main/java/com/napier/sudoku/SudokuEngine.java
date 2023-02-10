@@ -181,7 +181,9 @@ public class SudokuEngine {
 
     // showing prompts
     public void showPrompts (){
-        System.out.println("Current Grid is: (" + this.cell.getRow() +"," + this.cell.getColumn() + "), use W,S,A,D to move around or type in values");
+        System.out.println("Current Grid is: (" + this.cell.getRow() +"," + this.cell.getColumn() + "), use W,S,A,D to move around or type in values"
+        + "\n"
+        );
         Scanner scanner = new Scanner(System.in);
         String value = scanner.next();
 
@@ -210,7 +212,7 @@ public class SudokuEngine {
 
         else if (value.equals("S")|| value.equals("s")){
             boolean found = false; int left =Integer.MAX_VALUE; int right = Integer.MAX_VALUE; int rightColumn = 0; int leftColumn = 0;
-            int initRow = cell.getRow(); int finalRow = this.cell.getRow();
+            int initRow = cell.getRow()+1 ; int finalRow = this.cell.getRow();
             for (int i = initRow ; i < yAxis; i++) {
                 for (int column = 0; column < xAxis; column++) {
                     int current = array[i][column];
@@ -262,11 +264,11 @@ public class SudokuEngine {
                 _writeGrid_cmd(false);
 
         }
-        else if (value.equals("E")|| value.equals("e")){
+        else if (value.equals("H")|| value.equals("h")){
 
         }
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
-
+            // Do Nth
         }
         else {
             try {
@@ -288,7 +290,8 @@ public class SudokuEngine {
                         _writeGrid_cmd(false);
                     }
                 }catch (Exception err1){
-
+                    _separate();
+                    _writeGrid_cmd(false);
                 }
             }
         }
