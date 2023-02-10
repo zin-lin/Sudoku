@@ -30,6 +30,5 @@
 - Fixed Bugs with `UTF-8` - `(21:31 2023/01/31)`
   - Do use 
     ```powershell
-     PS> javac int -encoding utf-8 -cp . src/main/java/com/napier/sudoku/*.java
-     PS> java -cp . src/main/java/com/napier/sudoku/GameEngine
+     Ctrl + F 5 // IntelliJ
     ```
