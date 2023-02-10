@@ -20,6 +20,8 @@
 - `Dockerfile` 🐳
 
 ### ChangeLog 💻
+- `Interactive Console` is now working - `(15:28 2023/02/10)`
+- `@Deprecated` - `SudokuGenerator` and `Easy Sudoku Class` - `(18:00 2023/02/09)` 
 - Added `SudokuGenarator` and `Helper` classes to check grid- `(19:10 2023/02/01)`
 - Added `Easy Sudoku Class` - `(17:22 2023/02/01)`
 - Added `Separator` - `(16:36 2023/02/01)`
