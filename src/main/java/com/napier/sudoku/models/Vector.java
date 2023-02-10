@@ -25,6 +25,16 @@ public class Vector {
         return row;
     }
 
+    // set the value of private :: row
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    // set the value of private :: column
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
     //public constructor
     public Vector(int row, int column)
     {

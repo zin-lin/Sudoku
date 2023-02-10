@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Randomiser {
 
     // 2nd entry point of this app
+    @Deprecated
     public static int [] generate (int iteration, int maxBound){
 
         int [] array = new int [iteration];
