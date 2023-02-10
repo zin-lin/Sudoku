@@ -292,8 +292,6 @@ public class SudokuEngine {
                 }
             }
         }
-
-
     }
 
     // Public Constructor
@@ -301,7 +299,6 @@ public class SudokuEngine {
         this.xAxis = xAxis; this.yAxis = yAxis; // set things
         // write sudoku grid
         _writeGridStart(this.xAxis, this.yAxis);
-
 
     }// Constructor
     // Default Constructor
