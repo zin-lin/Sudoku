@@ -67,7 +67,7 @@ public class SudokuEngine {
         {
             Tree<Integer> random;
             if (start) {
-                random = Randomiser.generateTreeList(5, 9);
+                random = Randomiser.generateTreeList(5, xAxis);
             }
             else {
                 random = new Tree<>(null);
@@ -301,7 +301,7 @@ public class SudokuEngine {
     public SudokuEngine(int xAxis, int yAxis){
         this.xAxis = xAxis; this.yAxis = yAxis; // set things
         // write sudoku grid
-        _writeGridStart(this.xAxis, this.yAxis);
+        _writeGridStart(this.yAxis, this.xAxis);
 
     }// Constructor
     // Default Constructor
@@ -310,7 +310,7 @@ public class SudokuEngine {
     public SudokuEngine(){
         this.xAxis = 9; this.yAxis = 9; // set things
         // write sudoku grid
-        _writeGridStart(this.xAxis, this.yAxis);
+        _writeGridStart(this.yAxis, this.xAxis);
 
     }
 

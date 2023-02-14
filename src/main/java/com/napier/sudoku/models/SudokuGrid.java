@@ -44,16 +44,21 @@ public class SudokuGrid {
             if (columnIndex%3 ==0 && columnIndex/3 != 1) {
                 int[] column = new int[arr.length];
                 int[] columnNext = new int[arr.length];
-                for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
-                    column[rowIndex] = game[rowIndex][columnIndex];
-                    columnNext[rowIndex] = game[rowIndex][columnIndex + 2];
-                    // get the whole column like this
-                }// for
-                for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
-                     game[rowIndex][columnIndex] = columnNext[rowIndex] ;
-                     game[rowIndex][columnIndex + 2] = column[rowIndex] ;
-                    // get the whole column like this
-                }// for
+                try {
+                    for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
+                        column[rowIndex] = game[rowIndex][columnIndex];
+                        columnNext[rowIndex] = game[rowIndex][columnIndex + 2];
+                        // get the whole column like this
+                    }// for
+                    for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
+                        game[rowIndex][columnIndex] = columnNext[rowIndex];
+                        game[rowIndex][columnIndex + 2] = column[rowIndex];
+                        // get the whole column like this
+                    }// for
+                }
+                catch (Exception err){
+                    // Do No Switching
+                }
             }// if columns
         }// for columns
 
@@ -113,7 +118,11 @@ public class SudokuGrid {
                         else
                             array[row][column] = array[row - 3][column - 1];
                     } catch (Exception err){
-                        array[row][column] = array[row - 3][column + 2];
+                        try {
+                            array[row][column] = array[row - 3][column + 2];
+                        }catch ( Exception error){
+                            // Do nth
+                        }
                     }
                 }
             } // else
