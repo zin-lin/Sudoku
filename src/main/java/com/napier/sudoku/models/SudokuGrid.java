@@ -43,16 +43,25 @@ public class SudokuGrid {
         for (int columnIndex = 0; columnIndex < xAxis; columnIndex+=3){
             if (columnIndex%3 ==0 && columnIndex/3 != 1) {
                 int[] column = new int[arr.length];
+                int[] columnNextNext = new int[arr.length];
                 int[] columnNext = new int[arr.length];
                 try {
                     for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
                         column[rowIndex] = game[rowIndex][columnIndex];
-                        columnNext[rowIndex] = game[rowIndex][columnIndex + 2];
+                        columnNextNext[rowIndex] = game[rowIndex][columnIndex + 2];
+                        columnNext[rowIndex] = game[rowIndex][columnIndex + 1];
                         // get the whole column like this
                     }// for
                     for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
-                        game[rowIndex][columnIndex] = columnNext[rowIndex];
-                        game[rowIndex][columnIndex + 2] = column[rowIndex];
+
+                        if (columnIndex/3 == 0) {
+                            game[rowIndex][columnIndex] = columnNextNext[rowIndex];
+                            game[rowIndex][columnIndex + 2] = column[rowIndex];
+                        }
+                        else if (columnIndex/3 == 2) {
+                            game[rowIndex][columnIndex + 1] = columnNextNext[rowIndex];
+                            game[rowIndex][columnIndex + 2] = columnNext[rowIndex];
+                        }
                         // get the whole column like this
                     }// for
                 }
