@@ -63,11 +63,11 @@ public class Tree <Template>{
             this.leftNode = t.leftNode; // empty nodes saying terminal
             System.out.println(this.leftNode.value);
         } else {
-            if (  t.value.toString().compareTo(value.toString()) >0 ){
+            if (  t.value.toString().compareTo(value.toString()) > 0 ){
                 // Compare if the check is bigger than value go right else left
                 this.rightNode._add_node(t);
             }
-            else if ( t.value.toString().compareTo(value.toString()) <0) {
+            else if ( t.value.toString().compareTo(value.toString()) < 0) {
                 this.leftNode._add_node(t);
             }
             else if ( t.value.toString().compareTo(value.toString()) == 0) {

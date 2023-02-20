@@ -20,6 +20,8 @@ public class SudokuEngine {
     private int [][] array;
     private int [][] game;
 
+    private Tree<Vector> cells;
+
     //Separator
     private static void _separate ()  {
         System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -67,11 +69,11 @@ public class SudokuEngine {
         {
             Tree<Integer> random;
             if (start) {
-                random = Randomiser.generateTreeList(4, xAxis);
+                random = Randomiser.generateTreeList(3, xAxis);
             }
             else {
                 random = new Tree<>(null);
-                for (int integer = 1; integer < xAxis; integer++ ){
+                for (int integer = 1; integer <= xAxis; integer++ ){
                     random.add(integer);
                 }
             }
@@ -96,7 +98,11 @@ public class SudokuEngine {
                 int current = array[i][i1];
                 String randomizer;
                 if (random.contains(current)){
-                    randomizer = Integer.toString(current) ;
+
+                    randomizer = Integer.toString(current);
+                    if (start)
+                        cells.add(new Vector(i, i1));
+
                 }
                 else {
                     array[i][i1] = 0;
@@ -110,22 +116,27 @@ public class SudokuEngine {
                         randomizer = " ";
                 }
                 String ending = (i1+1) %3 == 0? "  ":"";
-                if (!randomizer.equals("X")){
+                try{
+                    if (!new Vector(i, i1).equals(cell)){
 
+                        System.out.print(leftBound + randomizer + rightBound + ending);
+                    }
+
+                    else {
+                        System.out.print(leftBound);
+                        // set color de blue
+                        System.out.print(ANSI_BLUE);
+                        System.out.print(randomizer);
+                        // reseting OG color
+                        System.out.print(ANSI_RESET);
+                        System.out.print(rightBound + ending);
+
+                    }
+                }catch (NullPointerException err){
+                    // if null for cell
                     System.out.print(leftBound + randomizer + rightBound + ending);
                 }
 
-                else {
-                    System.out.print(leftBound);
-                    // set color de blue
-
-                    System.out.print(ANSI_BLUE);
-                    System.out.print(randomizer);
-                    // reseting OG color
-                    System.out.print(ANSI_RESET);
-                    System.out.print(rightBound + ending);
-
-                }
 
 
             }
@@ -195,7 +206,7 @@ public class SudokuEngine {
                 for (int column = 0; column < xAxis; column++) {
                     int current = array[i][column];
 
-                    if (current == 0) {
+                    if (!cells.contains(new Vector(i, column))) {
                         this.cell.setColumn(column);
                         this.cell.setRow(i);
                         _separate();
@@ -218,7 +229,7 @@ public class SudokuEngine {
                 for (int column = 0; column < xAxis; column++) {
                     int current = array[i][column];
 
-                    if (current == 0) {
+                    if (!cells.contains(new Vector(i, column))) {
                         this.cell.setColumn(column);
                         this.cell.setRow(i);
                         _separate();
@@ -237,7 +248,7 @@ public class SudokuEngine {
             for (int column = this.cell.getColumn()-1 ; column >= 0; column-- ){
                 int current = array[cell.getRow()][column];
 
-                if (current == 0){
+                if (!cells.contains(new Vector(cell.getRow(), column))){
                     this.cell.setColumn(column);
                     _separate();
                     found = true;
@@ -252,7 +263,7 @@ public class SudokuEngine {
             boolean found = false;
             for (int column = this.cell.getColumn()+1 ; column < this.xAxis; column++ ){
                 int current = array[cell.getRow()][column];
-                if (current == 0){
+                if (!cells.contains(new Vector(cell.getRow(), column))){
                     found = true;
                     this.cell.setColumn(column);
                     _separate();
@@ -275,6 +286,9 @@ public class SudokuEngine {
         else {
             try {
                 int val = Integer.parseInt(value);
+                array[cell.getRow()][cell.getColumn()] = val;
+                _separate();
+                _writeGrid_cmd(false);
             }
             catch (Exception err){
                 try {
@@ -306,6 +320,7 @@ public class SudokuEngine {
     // Public Constructor
     public SudokuEngine(int xAxis, int yAxis){
         this.xAxis = xAxis; this.yAxis = yAxis; // set things
+        cells = new Tree<>(null); // Initiating
         // write sudoku grid
         _writeGridStart(this.yAxis, this.xAxis);
 
@@ -315,6 +330,7 @@ public class SudokuEngine {
     //Constructor
     public SudokuEngine(){
         this.xAxis = 9; this.yAxis = 9; // set things
+        cells = new Tree<>(null); // Initiating
         // write sudoku grid
         _writeGridStart(this.yAxis, this.xAxis);
 

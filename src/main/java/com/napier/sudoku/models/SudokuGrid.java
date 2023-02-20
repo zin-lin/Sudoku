@@ -104,7 +104,6 @@ public class SudokuGrid {
         for (int i = 0; i < xAxis; i++){
             array[0][i] = fLine.get(i);
         }
-
         for (int row = 1; row < yAxis; row++){
             // for all except line 1
             if (row % 3 != 0) {
