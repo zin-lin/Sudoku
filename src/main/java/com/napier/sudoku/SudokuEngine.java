@@ -64,7 +64,7 @@ public class SudokuEngine {
     }
 
     private void _writeGrid_cmd(boolean start){
-        final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
         for (int i = 0; i < yAxis; i++)
         {
             Tree<Integer> random;
@@ -118,11 +118,24 @@ public class SudokuEngine {
                 String ending = (i1+1) %3 == 0? "  ":"";
                 try{
                     if (!new Vector(i, i1).equals(cell)){
+                        if (cells.contains(new Vector(i, i1))) {
+                            System.out.print(leftBound + randomizer + rightBound + ending);}
 
-                        System.out.print(leftBound + randomizer + rightBound + ending);
+                        else {
+                                    // YELLOW
+                            System.out.print(leftBound);
+                            // set color de yellow
+                            System.out.print(ANSI_YELLOW);
+                            System.out.print(randomizer);
+                            // reseting OG color
+                            System.out.print(ANSI_RESET);
+                            System.out.print(rightBound + ending);
+                        }
                     }
 
                     else {
+
+                        // BLUE
                         System.out.print(leftBound);
                         // set color de blue
                         System.out.print(ANSI_BLUE);
