@@ -1,6 +1,6 @@
 package com.napier.sudoku.test;
 import com.napier.sudoku.models.SudokuGrid;
-import com.napier.sudoku.models.Tree;
+import com.napier.sudoku.models.memory.Tree;
 
 import java.awt.event.KeyEvent;
 
@@ -26,7 +26,7 @@ public class Test {
         integerTree.add(30);
         integerTree.add(16);
         integerTree.remove(-34);
-        System.out.println("The answer is :: " + integerTree.contains(-44) );
+        System.out.println("The answer is :: " + integerTree.contains(0) );
     }
 
     private static void testCPWArray () {
@@ -40,7 +40,8 @@ public class Test {
 
     }
     public static void main (String args []){
-        System.out.println(Integer.MAX_VALUE+1);
+        testTree();
+        System.out.println(  ("200, 90".compareTo("200, 90") ));
     }
 
 }

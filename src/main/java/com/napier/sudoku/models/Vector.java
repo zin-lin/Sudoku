@@ -43,6 +43,19 @@ public class Vector {
         this.column = column;
     }
 
+    @Override
+    public String toString (){
+        return  this.row +"," + this.column;
+    }
+
+    @Override
+    public boolean equals(Object compare){
+        boolean ans = false;
+        if (row == ((Vector)compare).row && column == ((Vector)compare).column)
+            ans = true;
+        return ans;
+    }
+
     public static ArrayList<Integer>getRows(ArrayList<Vector> arrayList, int column){
         ArrayList<Integer>integers = new ArrayList<>();
 

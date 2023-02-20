@@ -1,10 +1,7 @@
-package com.napier.sudoku.models;
-/* Purpose : Faster Accessing, O Log(n) for accessing O(n) for space allocation
-// Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk*/
+package com.napier.sudoku.models.memory;
 
-@Deprecated
-public class Tree <Template extends Object>{
+
+public class Tree <Template>{
     //private materials
     private Tree () {this.value = null; this.rightNode = null; this.leftNode = null;}
     private Template value;
@@ -57,7 +54,7 @@ public class Tree <Template extends Object>{
 
     }
 
-    private void _add_node (Tree<Template>t){
+    private void _add_node (Tree<Template> t){
         if (this.value == null) {
             this.value = t.value;
             rightNode = new Tree<Template>();
@@ -66,14 +63,14 @@ public class Tree <Template extends Object>{
             this.leftNode = t.leftNode; // empty nodes saying terminal
             System.out.println(this.leftNode.value);
         } else {
-            if ((int)t.value > (int)value){
+            if (  t.value.toString().compareTo(value.toString()) >0 ){
                 // Compare if the check is bigger than value go right else left
                 this.rightNode._add_node(t);
             }
-            else if ((int) t.value < (int) value) {
+            else if ( t.value.toString().compareTo(value.toString()) <0) {
                 this.leftNode._add_node(t);
             }
-            else if ((int)t.value == (int) value) {
+            else if ( t.value.toString().compareTo(value.toString()) == 0) {
                 // Do Nth
             }
         }
@@ -104,11 +101,11 @@ public class Tree <Template extends Object>{
             this.rightNode = new Tree<Template>(); // empty nodes saying terminal
             this.leftNode = new Tree<Template>(); // empty nodes saying terminal
         } else {
-            if ((int)t > (int)value){
+            if ( t.toString().compareTo(value.toString()) >0){
                 // Compare if the check is bigger than value go right else left
                 this.rightNode.add(t);
             }
-            else if ((int) t < (int) value) {
+            else if ( t.toString().compareTo(value.toString()) <0) {
                 this.leftNode.add(t);
             }
             else {
@@ -122,9 +119,9 @@ public class Tree <Template extends Object>{
     // get smallest but not the one that has
     public Template getSmallest (Template not){
         Template ans = null;
-        if (this.leftNode.value == null || (int)this.leftNode.value == (int)not) {
+        if (this.leftNode.value == null || this.leftNode.value.toString().equals(not.toString())) {
 
-            if ((int)this.value == (int)not) {
+            if (this.value.toString().equals(not.toString())) {
                 try {
                     ans = this.rightNode.getSmallest();
                 } catch (Exception err) {
@@ -154,12 +151,12 @@ public class Tree <Template extends Object>{
     public boolean contains(Template t){
         boolean ans = false;
         if (this.value != null) {
-            if ((int)this.value == (int)t) {
+            if (this.value.toString().equals(t.toString())) {
                 ans = true;
-            } else if ((int) t > (int) value) {
+            } else if ( t.toString().compareTo(value.toString()) > 0) {
                 // Compare if the check is bigger than value go right else left
                 ans = this.rightNode.contains(t);
-            } else if ((int) t < (int) value) {
+            } else if (t.toString().compareTo(value.toString()) < 0) {
                 ans = this.leftNode.contains(t);
             }
         }
@@ -191,10 +188,10 @@ public class Tree <Template extends Object>{
 
                 else if (this.leftNode.value == null && this.rightNode.value == null)
                     this.value = null; // end tree
-            } else if ((int) t > (int) value) {
+            } else if (t.toString().compareTo(value.toString()) > 0) {
                 // Compare if the check is bigger than value go right else left
                 this.rightNode.remove(t);
-            } else if ((int) t < (int) value) {
+            } else if (t.toString().compareTo(value.toString()) < 0) {
                 this.leftNode.remove(t);
             }
         }

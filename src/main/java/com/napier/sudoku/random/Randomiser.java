@@ -1,6 +1,6 @@
 package com.napier.sudoku.random;
 
-import com.napier.sudoku.models.Tree;
+import com.napier.sudoku.models.memory.Tree;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,6 +16,7 @@ public class Randomiser {
         int [] array = new int [iteration];
         AtomicInteger i = new AtomicInteger();
         ArrayList<Integer>printer = new ArrayList<Integer>();
+
         ThreadLocalRandom.current().ints(1, maxBound).distinct(). // Thread safety is done with this // parallelstreaming
                 limit(iteration).forEach(integer -> {
             array[i.get()] = integer;

@@ -1,7 +1,7 @@
 package com.napier.sudoku;
 
 import com.napier.sudoku.models.SudokuGrid;
-import com.napier.sudoku.models.Tree;
+import com.napier.sudoku.models.memory.Tree;
 import com.napier.sudoku.models.Vector;
 import com.napier.sudoku.random.Randomiser;
 
@@ -67,7 +67,7 @@ public class SudokuEngine {
         {
             Tree<Integer> random;
             if (start) {
-                random = Randomiser.generateTreeList(5, xAxis);
+                random = Randomiser.generateTreeList(4, xAxis);
             }
             else {
                 random = new Tree<>(null);
@@ -189,7 +189,7 @@ public class SudokuEngine {
 
         // Move Around
         if (value.equals("W") ||value.equals("w") ){
-            boolean found = false; int left =Integer.MAX_VALUE; int right = Integer.MAX_VALUE; int rightColumn = 0; int leftColumn = 0;
+            boolean found = false; int rightColumn = 0; int leftColumn = 0;
             int initRow = cell.getRow()-1;
             for (int i = initRow ; i >=0 ; i--) {
                 for (int column = 0; column < xAxis; column++) {
@@ -207,6 +207,7 @@ public class SudokuEngine {
             }
             if (!found)
                 _writeGrid_cmd(false);
+
         }
 
 
@@ -265,6 +266,7 @@ public class SudokuEngine {
 
         }
         else if (value.equals("H")|| value.equals("h")){
+            // Option de Help
 
         }
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
@@ -286,6 +288,10 @@ public class SudokuEngine {
                             this.cell.setColumn(column);
                             this.cell.setRow(row);
                         }
+                        _separate();
+                        _writeGrid_cmd(false);
+                    }
+                    else {
                         _separate();
                         _writeGrid_cmd(false);
                     }
