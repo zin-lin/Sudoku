@@ -311,7 +311,7 @@ public class SudokuEngine {
                         System.out.println(v1);
                         int row = Integer.parseInt(v1);
                         int column = Integer.parseInt(v2);
-                        if (array[row][column] == 0){
+                        if (!cells.contains(new Vector(row, column))){
                             this.cell.setColumn(column);
                             this.cell.setRow(row);
                         }
