@@ -227,6 +227,11 @@ public class SudokuEngine {
         + this.cell.getColumn() + "), use W,S,A,D to move around or type in values"
         + "\n"
         );
+
+        if (help){
+            Helper.printPossibilities(array, cell, yAxis, xAxis );
+        }
+
         Scanner scanner = new Scanner(System.in);
         String value = scanner.next();
 
