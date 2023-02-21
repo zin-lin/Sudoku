@@ -1,6 +1,10 @@
 package com.napier.sudoku.models.memory;
 
 
+// Class SudokuEngine :: This class deals with the tree architecture.
+// Author : Zin Lin Htun
+// @matric : 40542237@live.napier.ac.uk
+
 public class Tree <Template>{
     //private materials
     private Tree () {this.value = null; this.rightNode = null; this.leftNode = null;}

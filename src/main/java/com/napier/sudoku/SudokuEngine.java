@@ -1,5 +1,6 @@
 package com.napier.sudoku;
 
+import com.napier.sudoku.models.Helper;
 import com.napier.sudoku.models.SudokuGrid;
 import com.napier.sudoku.models.memory.Tree;
 import com.napier.sudoku.models.Vector;
@@ -8,9 +9,10 @@ import com.napier.sudoku.random.Randomiser;
 import java.io.IOException;
 import java.util.Scanner;
 
-// Class SudokuEngine
+/* Class SudokuEngine
 // Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk
+// @matric : 40542237@live.napier.ac.uk*/
+
 public class SudokuEngine {
 
     // private materials
@@ -20,11 +22,12 @@ public class SudokuEngine {
     private int [][] array;
     private int [][] game;
 
+    private boolean help;
     private Tree<Vector> cells;
 
     //Separator
     private static void _separate ()  {
-        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
         try
         {
             final String os = System.getProperty("os.name");
@@ -46,10 +49,14 @@ public class SudokuEngine {
     }
 
     // Generate Sudoku Array - two dimensional
+    @Deprecated
     private static int [][] _generateSudokuArray (int xAxis, int yAxis) {
 
         int [][] array = new int[xAxis][yAxis];
-        int [] xArray = new int [xAxis]; int [] yArray = new int [yAxis]; int [] refXArray = new int [xAxis]; int [] refYArray = new int [yAxis];
+        int [] xArray = new int [xAxis];
+        int [] yArray = new int [yAxis];
+        int [] refXArray = new int [xAxis];
+        int [] refYArray = new int [yAxis];
         // xAxis set up
         for (int i = 1; i < xAxis; i++){
             xArray[i-1] = i;
@@ -63,8 +70,10 @@ public class SudokuEngine {
         return array;
     }
 
+    // Write in Help mode
     private void _writeGrid_cmd(boolean start){
         final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
+        final String ANSI_RED = "\u001b[31m"; final String ANSI_GREEN = "\u001b[32m";
         for (int i = 0; i < yAxis; i++)
         {
             Tree<Integer> random;
@@ -77,14 +86,14 @@ public class SudokuEngine {
                     random.add(integer);
                 }
             }
+            // set up strings
             String upperBound = "╔═════╗ ";
             String leftBound  = "║  ";
             String rightBound = "  ║ ";
             String lowerBound = "╚═════╝ ";
             String printer ="";
             // each line is written
-            for (int i1 = 0; i1 < xAxis; i1++)
-            {
+            for (int i1 = 0; i1 < xAxis; i1++) {
                 String ending = (i1+1) %3 == 0? "  ":"";
                 printer += (upperBound + ending);
                 System.out.print(upperBound + ending);
@@ -92,8 +101,7 @@ public class SudokuEngine {
 
             System.out.print("\n");
             printer+="\n";
-            for (int i1 = 0; i1 < xAxis; i1++)
-            {
+            for (int i1 = 0; i1 < xAxis; i1++) {
 
                 int current = array[i][i1];
                 String randomizer;
@@ -116,43 +124,69 @@ public class SudokuEngine {
                         randomizer = " ";
                 }
                 String ending = (i1+1) %3 == 0? "  ":"";
-                try{
-                    if (!new Vector(i, i1).equals(cell)){
-                        if (cells.contains(new Vector(i, i1))) {
-                            System.out.print(leftBound + randomizer + rightBound + ending);}
+                if (!help){
+                    try {
+                        if (!new Vector(i, i1).equals(cell)) {
+                            if (cells.contains(new Vector(i, i1))) {
+                                System.out.print(leftBound + randomizer + rightBound + ending);
+                            } else {
+                                // YELLOW
+                                System.out.print(leftBound);
+                                // set color de yellow
+                                System.out.print(ANSI_YELLOW);
+                                System.out.print(randomizer);
+                                // reseting OG color
+                                System.out.print(ANSI_RESET);
+                                System.out.print(rightBound + ending);
+                            }
+                        } else {
 
-                        else {
-                                    // YELLOW
+                            // BLUE
                             System.out.print(leftBound);
-                            // set color de yellow
-                            System.out.print(ANSI_YELLOW);
+                            // set color de blue
+                            System.out.print(ANSI_BLUE);
+                            System.out.print(randomizer);
+                            // reseting OG color
+                            System.out.print(ANSI_RESET);
+                            System.out.print(rightBound + ending);
+
+                        }
+                    } catch (NullPointerException err) {
+                        // if null for cell
+                        System.out.print(leftBound + randomizer + rightBound + ending);
+                    }
+                }
+                else {
+                    // if cell contains white/ othewise check for validity. This way it is more efficient.
+                    if (cells.contains(new Vector(i,i1))){
+                        System.out.print(leftBound + randomizer + rightBound + ending);
+                    }
+                    else
+                    {
+                        if (Helper.check(array, new Vector(i, i1), yAxis, xAxis )) {
+                            // GREEN
+                            System.out.print(leftBound);
+                            // set color de blue
+                            System.out.print(ANSI_GREEN);
                             System.out.print(randomizer);
                             // reseting OG color
                             System.out.print(ANSI_RESET);
                             System.out.print(rightBound + ending);
                         }
-                    }
-
-                    else {
-
-                        // BLUE
-                        System.out.print(leftBound);
-                        // set color de blue
-                        System.out.print(ANSI_BLUE);
-                        System.out.print(randomizer);
-                        // reseting OG color
-                        System.out.print(ANSI_RESET);
-                        System.out.print(rightBound + ending);
+                        else {
+                            // RED
+                            System.out.print(leftBound);
+                            // set color de blue
+                            System.out.print(ANSI_RED);
+                            System.out.print(randomizer);
+                            // reseting OG color
+                            System.out.print(ANSI_RESET);
+                            System.out.print(rightBound + ending);
+                        }
 
                     }
-                }catch (NullPointerException err){
-                    // if null for cell
-                    System.out.print(leftBound + randomizer + rightBound + ending);
                 }
-
-
-
-            }
+            }// for
             System.out.print("\n");
             printer+="\n";
 
@@ -172,6 +206,7 @@ public class SudokuEngine {
         }//for
         showPrompts();
     }
+
     // Writing the sudoku grid
     private  void _writeGridStart(int yAxis, int xAxis){
         SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
@@ -205,7 +240,8 @@ public class SudokuEngine {
 
     // showing prompts
     public void showPrompts (){
-        System.out.println("Current Grid is: (" + this.cell.getRow() +"," + this.cell.getColumn() + "), use W,S,A,D to move around or type in values"
+        System.out.println("Current Grid is: (" + this.cell.getRow() +","
+        + this.cell.getColumn() + "), use W,S,A,D to move around or type in values"
         + "\n"
         );
         Scanner scanner = new Scanner(System.in);
@@ -291,6 +327,9 @@ public class SudokuEngine {
         }
         else if (value.equals("H")|| value.equals("h")){
             // Option de Help
+            help = !help;
+            _separate();
+            _writeGrid_cmd(false);
 
         }
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
@@ -332,6 +371,7 @@ public class SudokuEngine {
 
     // Public Constructor
     public SudokuEngine(int xAxis, int yAxis){
+        help = false;
         this.xAxis = xAxis; this.yAxis = yAxis; // set things
         cells = new Tree<>(null); // Initiating
         // write sudoku grid
@@ -342,6 +382,7 @@ public class SudokuEngine {
 
     //Constructor
     public SudokuEngine(){
+        help = false;
         this.xAxis = 9; this.yAxis = 9; // set things
         cells = new Tree<>(null); // Initiating
         // write sudoku grid
