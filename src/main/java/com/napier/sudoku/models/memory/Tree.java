@@ -1,9 +1,9 @@
 package com.napier.sudoku.models.memory;
 
 
-// Class SudokuEngine :: This class deals with the tree architecture.
+/* Class SudokuEngine :: This class deals with the tree architecture.
 // Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk
+// @matric : 40542237@live.napier.ac.uk */
 
 import java.util.function.Consumer;
 
@@ -42,7 +42,10 @@ public class Tree <Template>{
     }
     // Could nae set value
 
-
+    /*
+    _add_node is the node adder.
+    <param> Tree <Template> t to compare and add
+     */
     private void _add_node (Tree<Template> t){
         if (this.value == null) {
             this.value = t.value;
@@ -66,6 +69,9 @@ public class Tree <Template>{
     }
 
     // public constructor
+    /*
+    Public Constructor
+     */
     public Tree(Template value, boolean isRoot)
     {
         this.value = value;
@@ -75,6 +81,10 @@ public class Tree <Template>{
         }
     }
 
+    /*
+    Public Constructor
+    <param>
+     */
     public Tree(Template value)
     {
         this.value = value;
@@ -85,7 +95,10 @@ public class Tree <Template>{
 
     // public methods
 
-    // a dedicated for method
+    /*
+     a dedicated for method
+     <param> lambda function
+     */
     public void forEach (Consumer<? super Template> action){
         if (this.value != null){
 
@@ -95,6 +108,11 @@ public class Tree <Template>{
         }
     }
 
+    /*
+    get the indexed element with left side or right side
+    <param> tims
+    <param> left
+     */
     public Template get (int times, boolean left){
         Template ans = null;
         if (times == 0){
@@ -112,6 +130,11 @@ public class Tree <Template>{
         }
         return ans;
     }
+
+    /*
+    add element to tree
+    <param> t :: Template
+     */
     public void add(Template  t) {
         if (this.value == null) {
             this.value = t;
@@ -133,7 +156,10 @@ public class Tree <Template>{
     }
     // public methods end
 
-    // get smallest but not the one that has
+    /*
+     get smallest but not the one that has
+     <param> not :: Template
+     */
     public Template getSmallest (Template not){
         Template ans = null;
         if (this.leftNode.value == null || this.leftNode.value.toString().equals(not.toString())) {
@@ -153,7 +179,9 @@ public class Tree <Template>{
         return ans;
     }
 
-    // Overloading // get actual loading
+    /*
+    get smallest
+     */
     public Template getSmallest (){
         Template ans = null;
         if (this.leftNode.value == null ) {
@@ -165,6 +193,10 @@ public class Tree <Template>{
         return ans;
     }
 
+    /*
+    conatins method to decide if Tree contains a particular element
+    <param> t :: Template : to add
+     */
     public boolean contains(Template t){
         boolean ans = false;
         if (this.value != null) {
@@ -180,6 +212,10 @@ public class Tree <Template>{
         return ans;
     }
 
+    /*
+    remove element t :: Template from Tree
+    <param> t :: Template
+     */
     public void remove (Template t){
         boolean ans = false;
         if (this.value != null) {

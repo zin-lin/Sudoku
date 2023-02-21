@@ -2,9 +2,11 @@ package com.napier.sudoku.models;
 
 import java.util.ArrayList;
 
-/* Game Engine is the entry point
-// Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk */
+/*
+Game Engine is the entry point
+Author : Zin Lin Htun
+@matric : 40542237@live.napier.ac.uk
+*/
 public class Vector {
     // private materials
     private int row;
@@ -56,6 +58,7 @@ public class Vector {
         return ans;
     }
 
+    @Deprecated
     public static ArrayList<Integer>getRows(ArrayList<Vector> arrayList, int column){
         ArrayList<Integer>integers = new ArrayList<>();
 

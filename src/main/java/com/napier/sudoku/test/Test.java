@@ -4,6 +4,7 @@ import com.napier.sudoku.models.memory.Tree;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Timer;
 
 public class Test {
 
@@ -57,7 +58,18 @@ public class Test {
 
     }
     public static void main (String args []){
-        testArrayList();
+        char [] arrayList = {'Y','o','u',' ','h','a','v','e', ' ', 's','o','l','v','e','d',
+                ' ','t','h','e',' ','p','u','z','z','l','e','\n'
+        };
+        for (int i = 0; i < arrayList.length; i++)
+        {
+            System.out.print(arrayList[i]);
+            try {
+                Thread.sleep(100);}
+            catch (Exception e){
+                // Do Absoulte Nth
+            }
+        }
     }
 
 }

@@ -22,6 +22,7 @@ public class SudokuEngine {
     private int [][] array;
     private int [][] game;
 
+    private int level;
     private boolean help;
     private Tree<Vector> cells;
 
@@ -64,11 +65,25 @@ public class SudokuEngine {
         if (!start)
             solved = Helper.checkGamneEnd(array, cells, yAxis, xAxis); // everyting check is with binary search tree so it's pretty fast.
 
+        if (solved){
+            char [] arrayList = {'Y','o','u',' ','h','a','v','e', ' ', 's','o','l','v','e','d',
+            ' ','t','h','e',' ','p','u','z','z','l','e','\n'
+            };
+            for (int i = 0; i < arrayList.length; i++)
+            {
+                System.out.print(arrayList[i]);
+                try {
+                    Thread.sleep(100);}
+                catch (Exception e){
+                    // Do Absoulte Nth
+                }
+            }
+        }
         if (!solved){
             for (int i = 0; i < yAxis; i++) {
                 Tree<Integer> random;
                 if (start) {
-                    random = Randomiser.generateTreeList(3, xAxis);
+                    random = Randomiser.generateTreeList(level, xAxis);
                 } else {
                     random = new Tree<>(null);
                     for (int integer = 1; integer <= xAxis; integer++) {
@@ -224,11 +239,12 @@ public class SudokuEngine {
     // showing prompts
     public void showPrompts (){
         System.out.println("Current Grid is: (" + this.cell.getRow() +","
-        + this.cell.getColumn() + "), use W,S,A,D to move around or type in values"
+        + this.cell.getColumn() + "), use W,S,A,D to move around or type in values. Click 'q' to quit and 'h' to change to help mode"
         + "\n"
         );
 
         if (help){
+            System.out.println("HELP MODE ON! Click h to return to game mode");
             Helper.printPossibilities(array, cell, yAxis, xAxis );
         }
 
@@ -358,7 +374,8 @@ public class SudokuEngine {
     }
 
     // Public Constructor
-    public SudokuEngine(int xAxis, int yAxis){
+    public SudokuEngine(int xAxis, int yAxis, int level){
+        this.level = level;
         help = false;
         this.xAxis = xAxis; this.yAxis = yAxis; // set things
         cells = new Tree<>(null); // Initiating

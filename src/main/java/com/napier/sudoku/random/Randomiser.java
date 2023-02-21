@@ -29,7 +29,7 @@ public class Randomiser {
     public static Tree<Integer> generateTreeList (int iteration, int maxBound){
 
         Tree<Integer> array = new Tree<>(null,true);
-        ThreadLocalRandom.current().ints(1, maxBound).distinct(). // Thread safety is done with this // parallelstreaming
+        ThreadLocalRandom.current().ints(1, maxBound+1).distinct(). // Thread safety is done with this // parallelstreaming
                 limit(iteration).forEach(integer -> {
             array.add(integer);
         });

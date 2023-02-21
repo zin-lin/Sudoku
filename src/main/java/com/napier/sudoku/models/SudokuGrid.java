@@ -1,13 +1,12 @@
 package com.napier.sudoku.models;
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-// Class SudokuGrid :: purpose :: to draw the grid for Sudoku
-// Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk
+/* Class SudokuEngine :: This class deals with the tree architecture.
+ Author : Zin Lin Htun
+ @matric : 40542237@live.napier.ac.uk */
 public class SudokuGrid {
 
     // private materials
