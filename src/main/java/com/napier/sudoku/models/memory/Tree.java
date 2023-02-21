@@ -5,6 +5,8 @@ package com.napier.sudoku.models.memory;
 // Author : Zin Lin Htun
 // @matric : 40542237@live.napier.ac.uk
 
+import java.util.function.Consumer;
+
 public class Tree <Template>{
     //private materials
     private Tree () {this.value = null; this.rightNode = null; this.leftNode = null;}
@@ -40,23 +42,6 @@ public class Tree <Template>{
     }
     // Could nae set value
 
-    // public constructor
-    public Tree(Template value, boolean isRoot)
-    {
-        this.value = value;
-        if (isRoot){
-            this.rightNode = new Tree<Template>();
-            this.leftNode = new Tree<Template>();
-        }
-    }
-
-    public Tree(Template value)
-    {
-        this.value = value;
-        this.rightNode = new Tree<Template>();
-        this.leftNode = new Tree<Template>();
-
-    }
 
     private void _add_node (Tree<Template> t){
         if (this.value == null) {
@@ -80,7 +65,35 @@ public class Tree <Template>{
         }
     }
 
+    // public constructor
+    public Tree(Template value, boolean isRoot)
+    {
+        this.value = value;
+        if (isRoot){
+            this.rightNode = new Tree<Template>();
+            this.leftNode = new Tree<Template>();
+        }
+    }
+
+    public Tree(Template value)
+    {
+        this.value = value;
+        this.rightNode = new Tree<Template>();
+        this.leftNode = new Tree<Template>();
+
+    }
+
     // public methods
+
+    // a dedicated for method
+    public void forEach (Consumer<? super Template> action){
+        if (this.value != null){
+
+            this.leftNode.forEach(action); // call recursive
+            action.accept(this.value); // deal with lamdas
+            this.rightNode.forEach(action); // call recursive
+        }
+    }
 
     public Template get (int times, boolean left){
         Template ans = null;

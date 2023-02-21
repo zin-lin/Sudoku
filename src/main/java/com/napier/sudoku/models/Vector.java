@@ -2,9 +2,9 @@ package com.napier.sudoku.models;
 
 import java.util.ArrayList;
 
-// Game Engine is the entry point
+/* Game Engine is the entry point
 // Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk
+// @matric : 40542237@live.napier.ac.uk */
 public class Vector {
     // private materials
     private int row;

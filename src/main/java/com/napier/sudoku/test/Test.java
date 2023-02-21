@@ -3,6 +3,7 @@ import com.napier.sudoku.models.SudokuGrid;
 import com.napier.sudoku.models.memory.Tree;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class Test {
 
@@ -29,6 +30,22 @@ public class Test {
         System.out.println("The answer is :: " + integerTree.contains(0) );
     }
 
+    private static void testArrayList(){
+        Tree<Integer> integerTree = new Tree<>(null);
+        integerTree.add(15);
+        integerTree.add(140000);
+        integerTree.add(1);
+        integerTree.add(-34);
+        integerTree.add(-45);
+        integerTree.add(-465);
+        integerTree.add(30);
+        integerTree.add(16);
+        integerTree.remove(-34);
+        integerTree.forEach(e-> {
+            System.out.println(e);
+        });
+    }
+
     private static void testCPWArray () {
         SudokuGrid grid = new SudokuGrid(9,9);
         for (int [] row: grid.getGame()){
@@ -40,8 +57,7 @@ public class Test {
 
     }
     public static void main (String args []){
-        testTree();
-        System.out.println(  ("200, 90".compareTo("200, 90") ));
+        testArrayList();
     }
 
 }

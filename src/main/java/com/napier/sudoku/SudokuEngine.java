@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /* Class SudokuEngine
-// Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk*/
+   Author : Zin Lin Htun
+   @matric : 40542237@live.napier.ac.uk*/
 
 public class SudokuEngine {
 
@@ -27,24 +27,8 @@ public class SudokuEngine {
 
     //Separator
     private static void _separate ()  {
+        // write a whole load of lines
         System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-        try
-        {
-            final String os = System.getProperty("os.name");
-
-            if (os.contains("Windows"))
-            {
-                Runtime.getRuntime().exec("cls");
-            }
-            else
-            {
-                Runtime.getRuntime().exec("clear");
-            }
-        }
-        catch (final Exception e)
-        {
-            //  Handle any exceptions.
-        }
 
     }
 
@@ -72,139 +56,138 @@ public class SudokuEngine {
 
     // Write in Help mode
     private void _writeGrid_cmd(boolean start){
+
         final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
         final String ANSI_RED = "\u001b[31m"; final String ANSI_GREEN = "\u001b[32m";
-        for (int i = 0; i < yAxis; i++)
-        {
-            Tree<Integer> random;
-            if (start) {
-                random = Randomiser.generateTreeList(3, xAxis);
-            }
-            else {
-                random = new Tree<>(null);
-                for (int integer = 1; integer <= xAxis; integer++ ){
-                    random.add(integer);
-                }
-            }
-            // set up strings
-            String upperBound = "╔═════╗ ";
-            String leftBound  = "║  ";
-            String rightBound = "  ║ ";
-            String lowerBound = "╚═════╝ ";
-            String printer ="";
-            // each line is written
-            for (int i1 = 0; i1 < xAxis; i1++) {
-                String ending = (i1+1) %3 == 0? "  ":"";
-                printer += (upperBound + ending);
-                System.out.print(upperBound + ending);
-            }
 
-            System.out.print("\n");
-            printer+="\n";
-            for (int i1 = 0; i1 < xAxis; i1++) {
+        boolean solved = false;
+        if (!start)
+            solved = Helper.checkGamneEnd(array, cells, yAxis, xAxis); // everyting check is with binary search tree so it's pretty fast.
 
-                int current = array[i][i1];
-                String randomizer;
-                if (random.contains(current)){
-
-                    randomizer = Integer.toString(current);
-                    if (start)
-                        cells.add(new Vector(i, i1));
-
-                }
-                else {
-                    array[i][i1] = 0;
-                    if (this.cell == null) {
-                        randomizer = "X";
-                        this.cell = new Vector(i,i1);
+        if (!solved){
+            for (int i = 0; i < yAxis; i++) {
+                Tree<Integer> random;
+                if (start) {
+                    random = Randomiser.generateTreeList(3, xAxis);
+                } else {
+                    random = new Tree<>(null);
+                    for (int integer = 1; integer <= xAxis; integer++) {
+                        random.add(integer);
                     }
-                    else if (this.cell.getColumn() == i1 && this.cell.getRow() == i) {
-                        randomizer = "X";
-                    } else
-                        randomizer = " ";
                 }
-                String ending = (i1+1) %3 == 0? "  ":"";
-                if (!help){
-                    try {
-                        if (!new Vector(i, i1).equals(cell)) {
-                            if (cells.contains(new Vector(i, i1))) {
-                                System.out.print(leftBound + randomizer + rightBound + ending);
+                // set up strings
+                String upperBound = "╔═════╗ ";
+                String leftBound = "║  ";
+                String rightBound = "  ║ ";
+                String lowerBound = "╚═════╝ ";
+                String printer = "";
+                // each line is written
+                for (int i1 = 0; i1 < xAxis; i1++) {
+                    String ending = (i1 + 1) % 3 == 0 ? "  " : "";
+                    printer += (upperBound + ending);
+                    System.out.print(upperBound + ending);
+                }
+
+                System.out.print("\n");
+                printer += "\n";
+                for (int i1 = 0; i1 < xAxis; i1++) {
+
+                    int current = array[i][i1];
+                    String randomizer;
+                    if (random.contains(current)) {
+
+                        randomizer = Integer.toString(current);
+                        if (start)
+                            cells.add(new Vector(i, i1));
+
+                    } else {
+                        array[i][i1] = 0;
+                        if (this.cell == null) {
+                            randomizer = "X";
+                            this.cell = new Vector(i, i1);
+                        } else if (this.cell.getColumn() == i1 && this.cell.getRow() == i) {
+                            randomizer = "X";
+                        } else
+                            randomizer = " ";
+                    }
+                    String ending = (i1 + 1) % 3 == 0 ? "  " : "";
+                    if (!help) {
+                        try {
+                            if (!new Vector(i, i1).equals(cell)) {
+                                if (cells.contains(new Vector(i, i1))) {
+                                    System.out.print(leftBound + randomizer + rightBound + ending);
+                                } else {
+                                    // YELLOW
+                                    System.out.print(leftBound);
+                                    // set color de yellow
+                                    System.out.print(ANSI_YELLOW);
+                                    System.out.print(randomizer);
+                                    // reseting OG color
+                                    System.out.print(ANSI_RESET);
+                                    System.out.print(rightBound + ending);
+                                }
                             } else {
-                                // YELLOW
+
+                                // BLUE
                                 System.out.print(leftBound);
-                                // set color de yellow
-                                System.out.print(ANSI_YELLOW);
+                                // set color de blue
+                                System.out.print(ANSI_BLUE);
+                                System.out.print(randomizer);
+                                // reseting OG color
+                                System.out.print(ANSI_RESET);
+                                System.out.print(rightBound + ending);
+
+                            }
+                        } catch (NullPointerException err) {
+                            // if null for cell
+                            System.out.print(leftBound + randomizer + rightBound + ending);
+                        }
+                    } else {
+                        // if cell contains white/ othewise check for validity. This way it is more efficient.
+                        if (cells.contains(new Vector(i, i1))) {
+                            System.out.print(leftBound + randomizer + rightBound + ending);
+                        } else {
+                            if (Helper.check(array, new Vector(i, i1), yAxis, xAxis)) {
+                                // GREEN
+                                System.out.print(leftBound);
+                                // set color de blue
+                                System.out.print(ANSI_GREEN);
+                                System.out.print(randomizer);
+                                // reseting OG color
+                                System.out.print(ANSI_RESET);
+                                System.out.print(rightBound + ending);
+                            } else {
+                                // RED
+                                System.out.print(leftBound);
+                                // set color de blue
+                                System.out.print(ANSI_RED);
                                 System.out.print(randomizer);
                                 // reseting OG color
                                 System.out.print(ANSI_RESET);
                                 System.out.print(rightBound + ending);
                             }
-                        } else {
-
-                            // BLUE
-                            System.out.print(leftBound);
-                            // set color de blue
-                            System.out.print(ANSI_BLUE);
-                            System.out.print(randomizer);
-                            // reseting OG color
-                            System.out.print(ANSI_RESET);
-                            System.out.print(rightBound + ending);
 
                         }
-                    } catch (NullPointerException err) {
-                        // if null for cell
-                        System.out.print(leftBound + randomizer + rightBound + ending);
                     }
-                }
-                else {
-                    // if cell contains white/ othewise check for validity. This way it is more efficient.
-                    if (cells.contains(new Vector(i,i1))){
-                        System.out.print(leftBound + randomizer + rightBound + ending);
-                    }
-                    else
-                    {
-                        if (Helper.check(array, new Vector(i, i1), yAxis, xAxis )) {
-                            // GREEN
-                            System.out.print(leftBound);
-                            // set color de blue
-                            System.out.print(ANSI_GREEN);
-                            System.out.print(randomizer);
-                            // reseting OG color
-                            System.out.print(ANSI_RESET);
-                            System.out.print(rightBound + ending);
-                        }
-                        else {
-                            // RED
-                            System.out.print(leftBound);
-                            // set color de blue
-                            System.out.print(ANSI_RED);
-                            System.out.print(randomizer);
-                            // reseting OG color
-                            System.out.print(ANSI_RESET);
-                            System.out.print(rightBound + ending);
-                        }
-
-                    }
-                }
-            }// for
-            System.out.print("\n");
-            printer+="\n";
-
-            for (int i1 = 0; i1 < xAxis; i1++)
-            {
-                String ending = (i1+1) %3 == 0? "  ":"";
-                printer += lowerBound + ending;
-                System.out.print(lowerBound + ending);
-            }
-            System.out.print("\n");
-            printer+="\n";
-
-
-            if ((i+1) % 3 == 0 ){
+                }// for
                 System.out.print("\n");
-            }
-        }//for
-        showPrompts();
+                printer += "\n";
+
+                for (int i1 = 0; i1 < xAxis; i1++) {
+                    String ending = (i1 + 1) % 3 == 0 ? "  " : "";
+                    printer += lowerBound + ending;
+                    System.out.print(lowerBound + ending);
+                }
+                System.out.print("\n");
+                printer += "\n";
+
+
+                if ((i + 1) % 3 == 0) {
+                    System.out.print("\n");
+                }
+            }//for
+            showPrompts();
+        }
     }
 
     // Writing the sudoku grid

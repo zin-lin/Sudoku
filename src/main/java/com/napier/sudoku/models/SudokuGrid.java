@@ -19,29 +19,27 @@ public class SudokuGrid {
 
     // Shuffle 1
     private void _shuffle1 () {
-        int [][] arr = this.getGame();
-        for (int i = 0; i < arr.length; i+=3){
+        int[][] arr = this.getGame();
+        for (int i = 0; i < arr.length; i += 3) {
 
-            if ((i/3)  == 0){
+            if ((i / 3) == 0) {
                 // Simple switching
-                int [] row = arr [i];
-                int [] nextNext = arr[i +2];
-                int [] next = arr[i +1];
+                int[] row = arr[i];
+                int[] nextNext = arr[i + 2];
+                int[] next = arr[i + 1];
                 this.game[i] = next;
-                this.game[i+2] = row;
-                this.game[i+1] = nextNext;
-            }
-
-            else if ((i/3) == 1){
-                int [] row = arr [i+1];
-                int [] next = arr [i+2];
-                this.game[i+1] = next;
-                this.game[i+2] = row;
+                this.game[i + 2] = row;
+                this.game[i + 1] = nextNext;
+            } else if ((i / 3) == 1) {
+                int[] row = arr[i + 1];
+                int[] next = arr[i + 2];
+                this.game[i + 1] = next;
+                this.game[i + 2] = row;
             }
         }// row for
         int xAxis = arr[0].length;
-        for (int columnIndex = 0; columnIndex < xAxis; columnIndex+=3){
-            if (columnIndex%3 ==0 && columnIndex/3 != 1) {
+        for (int columnIndex = 0; columnIndex < xAxis; columnIndex += 3) {
+            if (columnIndex % 3 == 0 && columnIndex / 3 != 1) {
                 int[] column = new int[arr.length];
                 int[] columnNextNext = new int[arr.length];
                 int[] columnNext = new int[arr.length];
@@ -54,28 +52,21 @@ public class SudokuGrid {
                     }// for
                     for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
 
-                        if (columnIndex/3 == 0) {
+                        if (columnIndex / 3 == 0) {
                             game[rowIndex][columnIndex] = columnNextNext[rowIndex];
                             game[rowIndex][columnIndex + 2] = column[rowIndex];
-                        }
-                        else if (columnIndex/3 == 2) {
+                        } else if (columnIndex / 3 == 2) {
                             game[rowIndex][columnIndex + 1] = columnNextNext[rowIndex];
                             game[rowIndex][columnIndex + 2] = columnNext[rowIndex];
                         }
                         // get the whole column like this
                     }// for
-                }
-                catch (Exception err){
+                } catch (Exception err) {
                     // Do No Switching
                 }
             }// if columns
         }// for columns
-
-
-
-
-
-        }
+    }
     // private materials end
 
     // public materials
