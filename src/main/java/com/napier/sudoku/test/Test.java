@@ -28,7 +28,7 @@ public class Test {
         integerTree.add(30);
         integerTree.add(16);
         integerTree.remove(-34);
-        System.out.println("The answer is :: " + integerTree.contains(0) );
+        System.out.println("The answer is :: " + integerTree.contains(0));
     }
 
     private static void testArrayList(){

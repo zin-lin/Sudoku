@@ -66,7 +66,7 @@ public class SudokuEngine {
             solved = Helper.checkGamneEnd(array, cells, yAxis, xAxis); // everyting check is with binary search tree so it's pretty fast.
 
         if (solved){
-            char [] arrayList = {'Y','o','u',' ','h','a','v','e', ' ', 's','o','l','v','e','d',
+            char [] arrayList = new char []{'Y','o','u',' ','h','a','v','e', ' ', 's','o','l','v','e','d',
             ' ','t','h','e',' ','p','u','z','z','l','e','\n'
             };
             for (int i = 0; i < arrayList.length; i++)
@@ -78,6 +78,7 @@ public class SudokuEngine {
                     // Do Absoulte Nth
                 }
             }
+            return;
         }
         if (!solved){
             for (int i = 0; i < yAxis; i++) {
@@ -200,15 +201,22 @@ public class SudokuEngine {
                 if ((i + 1) % 3 == 0) {
                     System.out.print("\n");
                 }
-            }//for
+            }// for
             showPrompts();
-        }
+        }// if
     }
 
     // Writing the sudoku grid
     private  void _writeGridStart(int yAxis, int xAxis){
         SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
+
         this.game = generator.getGame(); // get the array
+        for(int i = 0; i<game.length; i++){
+            for (int i1 = 0; i1< game[i].length; i1++ ){
+                System.out.print(game[i][i1]);
+            }
+            System.out.print("\n");
+        }
         this.array = game;
         _writeGrid_cmd(true);
 
