@@ -16,56 +16,7 @@ public class SudokuGrid {
         // Do absolutely Nth Here
     }
 
-    // Shuffle 1
-    private void _shuffle1 () {
-        int[][] arr = this.getGame();
-        for (int i = 0; i < arr.length; i += 3) {
 
-            if ((i / 3) == 0) {
-                // Simple switching
-                int[] row = arr[i];
-                int[] nextNext = arr[i + 2];
-                int[] next = arr[i + 1];
-                this.game[i] = next;
-                this.game[i + 2] = row;
-                this.game[i + 1] = nextNext;
-            } else if ((i / 3) == 1) {
-                int[] row = arr[i + 1];
-                int[] next = arr[i + 2];
-                this.game[i + 1] = next;
-                this.game[i + 2] = row;
-            }
-        }// row for
-        int xAxis = arr[0].length;
-        for (int columnIndex = 0; columnIndex < xAxis; columnIndex += 3) {
-            if (columnIndex % 3 == 0 && columnIndex / 3 != 1) {
-                int[] column = new int[arr.length];
-                int[] columnNextNext = new int[arr.length];
-                int[] columnNext = new int[arr.length];
-                try {
-                    for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
-                        column[rowIndex] = game[rowIndex][columnIndex];
-                        columnNextNext[rowIndex] = game[rowIndex][columnIndex + 2];
-                        columnNext[rowIndex] = game[rowIndex][columnIndex + 1];
-                        // get the whole column like this
-                    }// for
-                    for (int rowIndex = 0; rowIndex < arr.length; rowIndex++) {
-
-                        if (columnIndex / 3 == 0) {
-                            game[rowIndex][columnIndex] = columnNextNext[rowIndex];
-                            game[rowIndex][columnIndex + 2] = column[rowIndex];
-                        } else if (columnIndex / 3 == 2) {
-                            game[rowIndex][columnIndex + 1] = columnNextNext[rowIndex];
-                            game[rowIndex][columnIndex + 2] = columnNext[rowIndex];
-                        }
-                        // get the whole column like this
-                    }// for
-                } catch (Exception err) {
-                    // Do No Switching
-                }
-            }// if columns
-        }// for columns
-    }
     // private materials end
 
     // public materials
@@ -91,46 +42,52 @@ public class SudokuGrid {
                     integer.getAndIncrement();
                 }
         ); // randomising
-        for (int i = 0; i < xAxis; i++){
-            array[0][i] = fLine.get(i);
-        }
-        for (int row = 1; row < yAxis; row++){
-            // for all except line 1
-            if (row % 3 != 0) {
-                // for every first line of
-                for (int column = 0; column < xAxis; column++) {
-                    try {
-                        array[row][column] = array[row - 1][column + 3];
-                    } catch (Exception err) {
-                        array[row][column] = array[row - 1][column - 6];
-                    }
-                }
-            } // if
-
-            else {
-                // for every second line of
-                for (int column = 0; column < xAxis; column++) {
-                    try {
-                        if (column%3 == 0)
-                            array[row][column] = array[row - 3][column + 2];
-                        else
-                            array[row][column] = array[row - 3][column - 1];
-                    } catch (Exception err){
+        if (xAxis == 9 && yAxis == 9){
+            for (int i = 0; i < xAxis; i++) {
+                array[0][i] = fLine.get(i);
+            }
+            for (int row = 1; row < yAxis; row++) {
+                // for all except line 1
+                if (row % 3 != 0) {
+                    // for every first line of
+                    for (int column = 0; column < xAxis; column++) {
                         try {
-                            array[row][column] = array[row - 3][column + 2];
-                        }catch ( Exception error){
-                            // Do nth
+                            array[row][column] = array[row - 1][column + 3];
+                        } catch (Exception err) {
+                            array[row][column] = array[row - 1][column - 6];
                         }
                     }
-                }
-            } // else
+                } // if
+
+                else {
+                    // for every second line of
+                    for (int column = 0; column < xAxis; column++) {
+                        try {
+                            if (column % 3 == 0)
+                                array[row][column] = array[row - 3][column + 2];
+                            else
+                                array[row][column] = array[row - 3][column - 1];
+                        } catch (Exception err) {
+                            try {
+                                array[row][column] = array[row - 3][column + 2];
+                            } catch (Exception error) {
+                                // Do nth
+                            }
+                        }
+                    }
+                } // else
 
 
+            }
+            // 9x9 grid special shuffle
+            // if the grid is not 9x9 let's not do a shuffle
+            array = Helper.shuffleStep1(array);
+            array = Helper.shuffleStep2(array);
+            array = Helper.shuffleStep3(array);
+            array = Helper.shuffleStep4(array);
         }
-        // Step one lay out of the first 3 rows x columns
 
         this.game = array;
-        _shuffle1();
 
     }// SudokuGrid
 

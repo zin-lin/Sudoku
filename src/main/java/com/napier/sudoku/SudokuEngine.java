@@ -29,7 +29,8 @@ public class SudokuEngine {
     //Separator
     private static void _separate ()  {
         // write a whole load of lines
-        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
     }
 
@@ -56,7 +57,7 @@ public class SudokuEngine {
     }
 
     // Write in Help mode
-    private void _writeGrid_cmd(boolean start){
+    private void  _writeGrid_cmd(boolean start){
 
         final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
         final String ANSI_RED = "\u001b[31m"; final String ANSI_GREEN = "\u001b[32m";
@@ -69,8 +70,7 @@ public class SudokuEngine {
             char [] arrayList = new char []{'Y','o','u',' ','h','a','v','e', ' ', 's','o','l','v','e','d',
             ' ','t','h','e',' ','p','u','z','z','l','e','\n'
             };
-            for (int i = 0; i < arrayList.length; i++)
-            {
+            for (int i = 0; i < arrayList.length; i++) {
                 System.out.print(arrayList[i]);
                 try {
                     Thread.sleep(100);}
@@ -84,12 +84,13 @@ public class SudokuEngine {
             for (int i = 0; i < yAxis; i++) {
                 Tree<Integer> random;
                 if (start) {
+                    // randomise the values to be ommitted
                     random = Randomiser.generateTreeList(level, xAxis);
                 } else {
+                    // random is now a balance tree. Usually from 1-9 would be a linear architecture
+                    // with balancedTree from helper class, this can be done
                     random = new Tree<>(null);
-                    for (int integer = 1; integer <= xAxis; integer++) {
-                        random.add(integer);
-                    }
+                    random = Helper.balancedTree(1,9);
                 }
                 // set up strings
                 String upperBound = "╔═════╗ ";
@@ -107,11 +108,11 @@ public class SudokuEngine {
                 System.out.print("\n");
                 printer += "\n";
                 for (int i1 = 0; i1 < xAxis; i1++) {
-
+                    // get current int
                     int current = array[i][i1];
                     String randomizer;
                     if (random.contains(current)) {
-
+                        // if the current number is in random, show otherwise replace with a zero
                         randomizer = Integer.toString(current);
                         if (start)
                             cells.add(new Vector(i, i1));
@@ -349,6 +350,7 @@ public class SudokuEngine {
         }
         else {
             try {
+                // parsing to value
                 int val = Integer.parseInt(value);
                 array[cell.getRow()][cell.getColumn()] = val;
                 _separate();
@@ -356,6 +358,7 @@ public class SudokuEngine {
             }
             catch (Exception err){
                 try {
+                    // parsing to coordinate
                     if (value.startsWith("(") && value.endsWith(")")){
                         String v1 =value.substring(1,2);
                         String v2 =value.substring(3,4);

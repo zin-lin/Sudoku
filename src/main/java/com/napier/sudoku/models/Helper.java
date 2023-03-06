@@ -7,6 +7,152 @@ import com.napier.sudoku.models.memory.Tree;
 public class Helper {
 
     /*
+    Achive the first step of 1 in algo.txt
+    <param> array :: int [][], array to change.
+     */
+    public static int [][] shuffleStep1 (int [][] array) {
+
+        // Nae checks and 9 movements:: Smashingggg!
+        for (int i = 0; i < array.length; i += 3) {
+            // skips the array by 3
+            int topRowOfSquare = i;
+            for (int column = 0; column< array[i].length; column+=3) {
+
+                int desireColumn = column+2;
+                int swap = array[topRowOfSquare + 1][desireColumn];
+                array[topRowOfSquare + 1][desireColumn] = array[topRowOfSquare + 2][desireColumn];
+                array[topRowOfSquare + 2][desireColumn] = swap;
+            }
+        }
+        return array;
+    }
+    /*
+    Achive the first step of 2 in algo.txt
+    <param> array :: int [][], array to change.
+     */
+    public static int [][] shuffleStep2(int [][] array){
+        {
+            int [] a1 = array[0];
+            int [] a2 = array[3];
+            int [] a3 = array[6];
+            array[0] = a3;
+            array[3] = a1;
+            array[6] = a2;
+        }
+        return array;
+    }
+
+    /*
+     Achive the first step of 3 in algo.txt
+    <param> array :: int [][], array to change.
+     */
+    public static int [][] shuffleStep3(int [][] array){
+        for (int i =0; i <array.length; i += 3){
+            // switch 1
+            int quo = i/3;
+            int rem = quo % 3;
+
+            if (rem == 1){
+                int [] a1 = array[i];
+                array[i] = array[i+1];
+                array[i+1] = a1;
+            }
+            else if (rem ==2 ){
+                int [] a1 = array[i];
+                int [] a2 = array[i+1];
+                int [] a3 = array[i+2];
+                array[i] = a2;
+                array[i+1] = a3;
+                array[i+2] = a1;
+            }
+
+        }
+        return array;
+    }
+
+    /*
+    Achive the first step of 4 in algo.txt
+    <param> array :: int [][], array to change.
+    // 9 moves
+     */
+    public static int [][] shuffleStep4(int [][] array) {
+        // 4 a
+        {
+            for (int i = 0; i < array.length; i += 3) {
+                //+3 so more efficient
+                int quo = i / 3;
+                int rem = quo % 3;
+
+                if (rem == 0) {
+                    for (int ii = 0; ii < array[i].length; ii += 3) {
+                        // 1st line of squares
+
+                        int i1 = array[i+2][ii];
+                        int i2 = array[i+2][ii + 1];
+                        int i3 = array[i+2][ii + 2];
+                        array[i+2][ii] = i2;
+                        array[i+2][ii + 1] = i3;
+                        array[i+2][ii + 2] = i1;
+                    }
+                }
+
+                else if (rem == 2 ||  rem ==1) {
+                    for (int ii = 0; ii < array[i].length; ii += 3) {
+                        // 1st line of squares
+
+                        int i2 = array[i][ii + 1];
+                        int i3 = array[i][ii + 2];
+
+                        array[i][ii + 1] = i3;
+                        array[i][ii + 2] = i2;
+                    }
+                }
+            }
+        }
+        // 4 b
+        {
+            for (int i = 0; i < array.length; i+=6){
+                int i1 = array[7][i];
+                int i2 = array[6][i + 1];
+                int i3 = array[7][i + 2];
+                array[7][i] = i2;
+                array[6][i + 1] = i3;
+                array[7][i + 2] = i1;
+            }
+        }
+
+        return array;
+    }
+
+
+    /*
+    This method adds the number proceeding from x till y in a balanced way
+    <param> min - minimum number
+    <param> max - maximum number
+     */
+    public static Tree<Integer> balancedTree(int min, int max) {
+        Tree<Integer> tree = new Tree<>(null); // null value is the starting value
+        int mean = (min + max)/2;
+        tree.add(mean); // adding mid as a root so the tree is balanced
+        // field :: left
+        {
+            // left sub tree
+            for (int i = min; i < mean; i++ ){
+                tree.add(i);
+            }
+        }
+        // field :: right
+        {
+            for (int i = max; i > mean; i-- ){
+                tree.add(i);
+            }
+        }
+
+        return tree;
+    }
+
+
+    /*
     Check if the cell grid is valid
     <param> array
     <param> cell
