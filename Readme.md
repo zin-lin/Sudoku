@@ -44,7 +44,7 @@ available syntax and commands
 ```
 or
 ```powershell
->> cmd <solveGame>
+>> cmd <solve>
 ```
 - getting out of developer mode
 ```powershell
