@@ -26,7 +26,30 @@ public class SudokuEngine {
     private boolean help;
     private Tree<Vector> cells;
 
-    //Separator
+    private void resetOrigins () {
+        boolean have_not = true;
+        cells = new Tree<>(null);
+        for (int i = 0; i< array.length; i++){
+            for (int j = 0; j < array[i].length; j++){
+                int current = array[i][j];
+                if (current == 0) {
+                    if (have_not) {
+                        cell.setRow(i);
+                        cell.setColumn(j);
+                        have_not = !have_not;
+                    }
+                }
+                else {
+                    cells.add(new Vector(i,j));
+                }
+
+            }
+        }
+    }
+
+    /*
+    separator
+     */
     private static void _separate ()  {
         // write a whole load of lines
         System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
@@ -56,7 +79,9 @@ public class SudokuEngine {
         return array;
     }
 
-    // Write in Help mode
+    /*
+    Write in Help mode
+     */
     private void  _writeGrid_cmd(boolean start){
 
         final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
@@ -207,7 +232,11 @@ public class SudokuEngine {
         }// if
     }
 
-    // Writing the sudoku grid
+
+
+    /*
+    Write in Sudoku Grid
+     */
     private  void _writeGridStart(int yAxis, int xAxis){
         SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
 
@@ -225,6 +254,12 @@ public class SudokuEngine {
 
     // public materials
     // getters and setters
+
+
+    public void setArray (int [][] array) {
+        this.array =array;
+    }
+
     // setXAxis to set xAxis
     public void setXAxis(int xAxis) {
         this.xAxis = xAxis;
@@ -347,6 +382,46 @@ public class SudokuEngine {
         }
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
             // Do Nth
+        }
+        else if (value.equals("dev") || value.equals("DEV")|| value.equals("Dev") ){
+            final String ANSI_BLUE = "\u001B[34m";  final String ANSI_RESET = "\u001B[0m";  final String ANSI_YELLOW = "\u001b[33m";
+            Scanner scannerDev = new Scanner(System.in);
+            System.out.println(ANSI_BLUE + "You are now in developer mode, please type in the command, please check if the SUDOKU EDITION is VALID" + ANSI_YELLOW);
+
+            while (true) {
+
+                String cmd = scannerDev.nextLine();
+                String[] args = cmd.split("\\s+");
+                try{
+                    if (args[1].equals("<setGame>")) {
+
+                        String[] yDem = args[2].split("/"); // The Y demsion
+                        for (int i = 0; i < yDem.length; i++) {
+                            String[] xDem = yDem[i].split(",");
+                            for (int j = 0; j < xDem.length; j++) {
+                                int valueX = Integer.parseInt(xDem[j]); // parsing into int
+                                array[i][j] = valueX;
+                            }
+                        }
+
+                        System.out.println("Exiting Dev Mode ----> " + ANSI_RESET );
+                        resetOrigins();
+                        _writeGrid_cmd(false);
+                    }
+
+                    else if (args[1].equals("<quit>") || args[1].equals("<player>")) {
+                        System.out.println("Exiting Dev Mode ----> " + ANSI_RESET );
+                        _writeGrid_cmd(false);
+                        break;
+                    }
+                    else {
+                        System.out.println("Unknown Annex Function"+ANSI_YELLOW);
+                    }
+                }catch (Exception err){
+                    System.out.println( "Wrong Syntax for AnnexCode" +ANSI_YELLOW);
+                }
+            }
+
         }
         else {
             try {
