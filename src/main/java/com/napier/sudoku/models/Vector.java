@@ -45,9 +45,12 @@ public class Vector {
         this.column = column;
     }
 
+    /*
+    This method is overridden in such a way that it supports a balanced tree
+     */
     @Override
     public String toString (){
-        return  this.row +"," + this.column;
+        return  this.column +"," + this.row;
     }
 
     @Override
@@ -61,7 +64,6 @@ public class Vector {
     @Deprecated
     public static ArrayList<Integer>getRows(ArrayList<Vector> arrayList, int column){
         ArrayList<Integer>integers = new ArrayList<>();
-
         return integers;
     }
 

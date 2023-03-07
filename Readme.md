@@ -23,6 +23,38 @@
 - Preview Help mode
 - ![alt text](./demo2.png)
 
+### Developer Mode `--alpha`
+available syntax and commands
+- go into developer mode
+```cmd
+>> Current grid is: (1,3) use W,S,A,D to move around or type in values
+>> dev 
+```
+- resetting game - remember the game has to be valid, author's application does not check this.
+```powershell
+>> cmd <setGame> 0,0,0,4,9,6,0,0,0/7,0,3,0,0,0,0,9,0/0,0,0,0,0,0,5,0,0/0,8,4,7,0,0,0,0,0/0,0,0,0,0,0,0,5,2/3,0,0,1,0,0,7,0,0/0,4,0,0,5,0,0,2,7/6,0,0,8,0,9,0,0,3/0,0,0,0,0,4,0,0,0/
+```
+- printing the answer 
+```powershell
+>> cmd <printAnswer>
+```
+- winning the game automatically `--solving`
+```powershell
+>> cmd <solveGame>
+```
+or
+```powershell
+>> cmd <solveGame>
+```
+- getting out of developer mode
+```powershell
+>> cmd <player>
+```
+or
+```powershell
+>> cmd <quit>
+```
+
 
 ### ChangeLog 💻
 - `Interactive Console` is now working - `(15:28 2023/02/10)`
