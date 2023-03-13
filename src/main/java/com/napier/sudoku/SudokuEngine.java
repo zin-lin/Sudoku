@@ -6,7 +6,9 @@ import com.napier.sudoku.models.memory.Tree;
 import com.napier.sudoku.models.Vector;
 import com.napier.sudoku.random.Randomiser;
 
+
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /* Class SudokuEngine
@@ -41,6 +43,7 @@ public class SudokuEngine {
                 }
                 else {
                     cells.add(new Vector(i,j));
+                    System.out.print("added\n");
                 }
 
             }
@@ -51,6 +54,9 @@ public class SudokuEngine {
     separator
      */
     private static void _separate ()  {
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
         // write a whole load of lines
         System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
                 "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -105,7 +111,7 @@ public class SudokuEngine {
             }
             return;
         }
-        if (!solved){
+        else{
             for (int i = 0; i < yAxis; i++) {
                 Tree<Integer> random;
                 if (start) {
@@ -241,13 +247,15 @@ public class SudokuEngine {
         SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
 
         this.game = generator.getGame(); // get the array
+        this.array = new int [yAxis][xAxis];
         for(int i = 0; i<game.length; i++){
             for (int i1 = 0; i1< game[i].length; i1++ ){
-                System.out.print(game[i][i1]);
+                //System.out.print(game[i][i1]);
+                array[i][i1] = game[i][i1];
             }
-            System.out.print("\n");
+            //System.out.print("\n");
         }
-        this.array = game;
+
         _writeGrid_cmd(true);
 
     }
@@ -406,14 +414,31 @@ public class SudokuEngine {
 
                         System.out.println("Exiting Dev Mode ----> " + ANSI_RESET );
                         resetOrigins();
-                        _writeGrid_cmd(false);
-                    }
 
+                        break;
+
+                    }
 
                     else if (args[1].equals("<quit>") || args[1].equals("<player>")) {
                         System.out.println("Exiting Dev Mode ----> " + ANSI_RESET );
-                        _writeGrid_cmd(false);
+
                         break;
+                    }
+                    else if (args[1].equals("<printGrid>") || args[1].equals("<printAnswer>")) {
+                        System.out.println("Printing Answer ----> " + ANSI_BLUE );
+                        Helper.printSudoku9x9(game);
+                        System.out.print(ANSI_YELLOW);
+
+                    }
+                    else if (args[1].equals("<solve>") || args[1].equals("<solveGame>")) {
+                        array = new int[yAxis][xAxis];
+                        Helper.printSudoku9x9(game);
+                        for (int i = 0; i < game.length; i++){
+                            array[i] = game[i];
+                        }
+                        System.out.println("Exiting Dev Mode ----> " + ANSI_RESET );
+                        break;
+
                     }
                     else {
                         System.out.println("Unknown Annex Function"+ANSI_YELLOW);
@@ -422,6 +447,7 @@ public class SudokuEngine {
                     System.out.println( "Wrong Syntax for AnnexCode" +ANSI_YELLOW);
                 }
             }
+            _writeGrid_cmd(false);
 
         }
         else {

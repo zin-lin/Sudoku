@@ -69,3 +69,8 @@ or
     ```powershell
      Ctrl + F 5 //IntelliJ
     ```
+  - Build IntelliJ
+    - Use CMD to execute with maximum efficiency.
+    - ```powershell
+      PS> java com.napier.sudoku.GameEngine
+      ```

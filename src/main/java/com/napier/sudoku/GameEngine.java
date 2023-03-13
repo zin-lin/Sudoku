@@ -13,9 +13,10 @@ public class GameEngine {
 
     private static void _game(){
         System.out.println("Choose Game: ");
-        System.out.println("1) Standard Sudoku Game \uD83D\uDE03 ");
-        System.out.println("2) Sudoku Define Yourself \uD83D\uDE0E ");
-        System.out.println("3) Hardcore Sudoku \uD83D\uDE24");
+        System.out.println("1) Standard Sudoku Game");
+        System.out.println("2) Sudoku Define Yourself");
+        System.out.println("3) Hardcore Sudoku");
+        System.out.println("4) settings");
 
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -31,8 +32,8 @@ public class GameEngine {
             {
                 // prompts for additions
                 System.out.println("Choose Extra Features for the game: ");
-                System.out.println("1) Ninja - Against Timer \uD83E\uDD77\uD83C\uDFFC ");
-                System.out.println("2) Nothing - normal game \uD83D\uDE43");
+                System.out.println("1) Ninja - Against Timer");
+                System.out.println("2) Nothing - normal game");
                 Scanner adder = new Scanner(System.in);
                 int adderText;
                 try {
@@ -48,9 +49,9 @@ public class GameEngine {
                     }
                     case 2:{
                         System.out.println("Choose Your Level");
-                        System.out.println("1) Beginner \uD83D\uDE4B\uD83C\uDFFC\u200D♂️ ");
-                        System.out.println("2) Mediocre \uD83D\uDE4B\uD83C\uDFFC");
-                        System.out.println("3) Master \uD83D\uDC69\uD83C\uDFFC\u200D\uD83C\uDF93");
+                        System.out.println("1) Beginner");
+                        System.out.println("2) Mediocre ");
+                        System.out.println("3) Master");
                         Scanner level = new Scanner(System.in);
                         int levelText;
                         try{

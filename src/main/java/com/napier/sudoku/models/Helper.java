@@ -111,7 +111,7 @@ public class Helper {
         }
         // 4 b
         {
-            for (int i = 0; i < array.length; i+=6){
+            for (int i = 0; i < array.length; i+=3){
                 int i1 = array[7][i];
                 int i2 = array[6][i + 1];
                 int i3 = array[7][i + 2];
@@ -254,6 +254,30 @@ public class Helper {
         }
         System.out.println("\n");
 
+    }
+
+    public static void printSudoku9x9 (int [][]array) {
+        for (int i = 0; i < array.length; i++){
+            for (int j = 0; j < array[i].length; j +=3 ){
+                try {
+                    System.out.print(array[i][j] + " ");
+                    Thread.sleep(50);
+                    System.out.print(array[i][j + 1] + " ");
+                    Thread.sleep(50);
+                    System.out.print(array[i][j + 2] + " ");
+                    Thread.sleep(50);
+                    System.out.print("| ");
+                    Thread.sleep(50);
+
+                }catch (Exception err){
+                    //Do Abs Nth
+                }
+            }
+            System.out.print("\n");
+            if ((i+1) % 3 == 0)
+                System.out.println("-----------------------");
+
+        }
     }
 
 }
