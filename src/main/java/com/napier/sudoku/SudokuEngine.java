@@ -5,19 +5,19 @@ import com.napier.sudoku.models.SudokuGrid;
 import com.napier.sudoku.models.memory.Tree;
 import com.napier.sudoku.models.Vector;
 import com.napier.sudoku.random.Randomiser;
-
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/* Class SudokuEngine
+/**
+   Class SudokuEngine
    Author : Zin Lin Htun
    @matric : 40542237@live.napier.ac.uk*/
 
 public class SudokuEngine {
 
     // private materials
+    private int count = 0;
     private int xAxis;
     private int yAxis;
     private Vector cell;
@@ -27,7 +27,9 @@ public class SudokuEngine {
     private int level;
     private boolean help;
     private Tree<Vector> cells;
-
+    /**
+     * resetting the game
+     */
     private void resetOrigins () {
         boolean have_not = true;
         cells = new Tree<>(null);
@@ -50,20 +52,23 @@ public class SudokuEngine {
         }
     }
 
-    /*
-    separator
+    /**
+    separator - clearing the console screen
      */
     private static void _separate ()  {
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
         // write a whole load of lines
-        System.out.print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
     }
 
-    // Generate Sudoku Array - two dimensional
+    /** Generate Sudoku Array - two dimensional
+     * DEPRECATED
+     * @param xAxis
+     * @param yAxis
+     * @return
+     */
     @Deprecated
     private static int [][] _generateSudokuArray (int xAxis, int yAxis) {
 
@@ -85,7 +90,7 @@ public class SudokuEngine {
         return array;
     }
 
-    /*
+    /**
     Write in Help mode
      */
     private void  _writeGrid_cmd(boolean start){
@@ -94,24 +99,13 @@ public class SudokuEngine {
         final String ANSI_RED = "\u001b[31m"; final String ANSI_GREEN = "\u001b[32m";
 
         boolean solved = false;
-        if (!start)
+        if (!start) {
             solved = Helper.checkGamneEnd(array, cells, yAxis, xAxis); // everyting check is with binary search tree so it's pretty fast.
-
-        if (solved){
-            char [] arrayList = new char []{'Y','o','u',' ','h','a','v','e', ' ', 's','o','l','v','e','d',
-            ' ','t','h','e',' ','p','u','z','z','l','e','\n'
-            };
-            for (int i = 0; i < arrayList.length; i++) {
-                System.out.print(arrayList[i]);
-                try {
-                    Thread.sleep(100);}
-                catch (Exception e){
-                    // Do Absoulte Nth
-                }
-            }
-            return;
         }
-        else{
+        if (solved) {
+            System.out.println(ANSI_GREEN + "Solved!" + ANSI_RESET);
+        }
+        if (!solved){
             for (int i = 0; i < yAxis; i++) {
                 Tree<Integer> random;
                 if (start) {
@@ -207,7 +201,7 @@ public class SudokuEngine {
                             } else {
                                 // RED
                                 System.out.print(leftBound);
-                                // set color de blue
+                                // set color de bflue
                                 System.out.print(ANSI_RED);
                                 System.out.print(randomizer);
                                 // reseting OG color
@@ -234,18 +228,20 @@ public class SudokuEngine {
                     System.out.print("\n");
                 }
             }// for
+
             showPrompts();
         }// if
     }
 
 
 
-    /*
+    /**
     Write in Sudoku Grid
      */
     private  void _writeGridStart(int yAxis, int xAxis){
         SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
-
+        // I want a clear console here
+        _separate();
         this.game = generator.getGame(); // get the array
         this.array = new int [yAxis][xAxis];
         for(int i = 0; i<game.length; i++){
@@ -264,32 +260,28 @@ public class SudokuEngine {
     // getters and setters
 
 
+    /**
+     * array setting
+     * @param array
+     */
     public void setArray (int [][] array) {
         this.array =array;
     }
 
-    // setXAxis to set xAxis
-    public void setXAxis(int xAxis) {
-        this.xAxis = xAxis;
-    }
 
-    // getXAxis to get xAxis
-    public int getXAxis() {
-        return xAxis;
-    }
-
-    // setYAxis to set yAxis
-    public void setYAxis(int yAxis) {
-        this.yAxis = yAxis;
-    }
-
-    // getYAxis to set yAxis
+    /** getYAxis to set yAxis
+     *
+     * @return, default
+     */
     public int getYAxis() {
         return yAxis;
     }
 
-    // showing prompts
+    /**
+     * showing prompts
+     */
     public void showPrompts (){
+
         System.out.println("Current Grid is: (" + this.cell.getRow() +","
         + this.cell.getColumn() + "), use W,S,A,D to move around or type in values. Click 'q' to quit and 'h' to change to help mode"
         + "\n"
@@ -301,7 +293,7 @@ public class SudokuEngine {
         }
 
         Scanner scanner = new Scanner(System.in);
-        String value = scanner.next();
+        String value = scanner.nextLine(); // get input from user
 
         // Move Around
         if (value.equals("W") ||value.equals("w") ){
@@ -317,12 +309,15 @@ public class SudokuEngine {
                         _separate();
                         found = true;
                         _writeGrid_cmd(false);
-                        break;
+                        return;
                     }
                 }
             }
-            if (!found)
+            if (!found) {
+                _separate();
                 _writeGrid_cmd(false);
+            }
+            return;
 
         }
 
@@ -340,12 +335,16 @@ public class SudokuEngine {
                         _separate();
                         found = true;
                         _writeGrid_cmd(false);
-                        break;
+                        return;
                     }
                 }
             }
-            if (!found)
+            if (!found) {
+                _separate();
                 _writeGrid_cmd(false);
+            }
+            return;
+
         }
         else if (value.equals("A")|| value.equals("a")){
             boolean found = false;
@@ -361,8 +360,12 @@ public class SudokuEngine {
                     break;
                 }
             }
-            if (!found)
+            if (!found){
+                _separate();
                 _writeGrid_cmd(false);
+            }
+            return;
+
         }
         else if (value.equals("D")|| value.equals("d")){
             boolean found = false;
@@ -377,8 +380,11 @@ public class SudokuEngine {
                 }
 
             }
-            if (!found)
+            if (!found) {
+                _separate(); // call separator function
                 _writeGrid_cmd(false);
+            }
+            return;
 
         }
         else if (value.equals("H")|| value.equals("h")){
@@ -386,19 +392,23 @@ public class SudokuEngine {
             help = !help;
             _separate();
             _writeGrid_cmd(false);
+            return;
 
         }
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
             // Do Nth
+            return;
+
         }
         else if (value.equals("dev") || value.equals("DEV")|| value.equals("Dev") ){
             final String ANSI_BLUE = "\u001B[34m";  final String ANSI_RESET = "\u001B[0m";  final String ANSI_YELLOW = "\u001b[33m";
-            Scanner scannerDev = new Scanner(System.in);
+
             System.out.println(ANSI_BLUE + "You are now in developer mode, please type in the command, please check if the SUDOKU EDITION is VALID" + ANSI_YELLOW);
 
             while (true) {
 
-                String cmd = scannerDev.nextLine();
+
+                String cmd = scanner.nextLine();
                 String[] args = cmd.split("\\s+");
                 try{
                     if (args[1].equals("<setGame>")) {
@@ -437,7 +447,7 @@ public class SudokuEngine {
                             array[i] = game[i];
                         }
                         System.out.println("Exiting Dev Mode ----> " + ANSI_RESET );
-                        break;
+                        break; // exit the while loop
 
                     }
                     else {
@@ -447,14 +457,19 @@ public class SudokuEngine {
                     System.out.println( "Wrong Syntax for AnnexCode" +ANSI_YELLOW);
                 }
             }
+
+
             _writeGrid_cmd(false);
+            return;
 
         }
         else {
             try {
                 // parsing to value
                 int val = Integer.parseInt(value);
-                array[cell.getRow()][cell.getColumn()] = val;
+                if (val >= 1 || val <= 9) {
+                    array[cell.getRow()][cell.getColumn()] = val;
+                }
                 _separate();
                 _writeGrid_cmd(false);
             }
@@ -464,29 +479,41 @@ public class SudokuEngine {
                     if (value.startsWith("(") && value.endsWith(")")){
                         String v1 =value.substring(1,2);
                         String v2 =value.substring(3,4);
-                        System.out.println(v1);
+
                         int row = Integer.parseInt(v1);
                         int column = Integer.parseInt(v2);
-                        if (!cells.contains(new Vector(row, column))){
-                            this.cell.setColumn(column);
-                            this.cell.setRow(row);
+                        if (row >= 0 && row < yAxis && column >= 0 && column < xAxis) {
+                            if (!cells.contains(new Vector(row, column))) {
+                                this.cell.setColumn(column);
+                                this.cell.setRow(row);
+
+                                _separate();
+                                _writeGrid_cmd(false);
+                            }
                         }
-                        _separate();
-                        _writeGrid_cmd(false);
                     }
                     else {
                         _separate();
                         _writeGrid_cmd(false);
                     }
+
                 }catch (Exception err1){
                     _separate();
                     _writeGrid_cmd(false);
                 }
             }
+            return;
+
         }
+
     }
 
-    // Public Constructor
+    /** Public Constructor
+     *
+     * @param xAxis, length for x axis
+     * @param yAxis, length for y axis
+     * @param level, hard, medium, easy
+     */
     public SudokuEngine(int xAxis, int yAxis, int level){
         this.level = level;
         help = false;
@@ -498,14 +525,14 @@ public class SudokuEngine {
     }// Constructor
     // Default Constructor
 
-    //Constructor
+    /**
+     * Constructor
+     */
     public SudokuEngine(){
         help = false;
         this.xAxis = 9; this.yAxis = 9; // set things
         cells = new Tree<>(null); // Initiating
         // write sudoku grid
         _writeGridStart(this.yAxis, this.xAxis);
-
     }
-
 }

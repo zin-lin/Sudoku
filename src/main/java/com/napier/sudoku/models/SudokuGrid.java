@@ -1,10 +1,12 @@
 package com.napier.sudoku.models;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/* Class SudokuEngine :: This class deals with the tree architecture.
+/**
+ * Class SudokuEngine :: This class deals with the tree architecture.
  Author : Zin Lin Htun
  @matric : 40542237@live.napier.ac.uk */
 public class SudokuGrid {
@@ -21,12 +23,19 @@ public class SudokuGrid {
 
     // public materials
 
-    // public Get Grid
+    /**public Get Grid
+     *
+     * @return get game
+     */
     public int [][] getGame () {
         return this.game;
     }
 
-    // public constructor
+    /**
+     *  public constructor
+     * @param yAxis
+     * @param xAxis
+     */
     public SudokuGrid (int yAxis, int xAxis){
         // Generate ArrayList <Integer>
         int [][] array = new int [yAxis][xAxis];
@@ -42,6 +51,7 @@ public class SudokuGrid {
                     integer.getAndIncrement();
                 }
         ); // randomising
+        Collections.shuffle(fLine); // randomising
         if (xAxis == 9 && yAxis == 9){
             for (int i = 0; i < xAxis; i++) {
                 array[0][i] = fLine.get(i);

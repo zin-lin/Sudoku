@@ -1,9 +1,11 @@
 package com.napier.sudoku.models.memory;
 
 
-/* Class SudokuEngine :: This class deals with the tree architecture.
+/**
+ *  Class SudokuEngine :: This class deals with the tree architecture.
 // Author : Zin Lin Htun
-// @matric : 40542237@live.napier.ac.uk */
+// @matric : 40542237@live.napier.ac.uk
+ */
 
 import java.util.function.Consumer;
 
@@ -42,9 +44,9 @@ public class Tree <Template>{
     }
     // Could nae set value
 
-    /*
+    /**
     _add_node is the node adder.
-    <param> Tree <Template> t to compare and add
+    @param Tree <Template> t to compare and add
      */
     private void _add_node (Tree<Template> t){
         if (this.value == null) {
@@ -69,7 +71,7 @@ public class Tree <Template>{
     }
 
     // public constructor
-    /*
+    /**
     Public Constructor
      */
     public Tree(Template value, boolean isRoot)
@@ -81,9 +83,9 @@ public class Tree <Template>{
         }
     }
 
-    /*
+    /**
     Public Constructor
-    <param>
+    @param
      */
     public Tree(Template value)
     {
@@ -95,9 +97,9 @@ public class Tree <Template>{
 
     // public methods
 
-    /*
+    /**
      a dedicated for method
-     <param> lambda function
+     @param lambda function
      */
     public void forEach (Consumer<? super Template> action){
         if (this.value != null){
@@ -108,10 +110,10 @@ public class Tree <Template>{
         }
     }
 
-    /*
+    /**
     get the indexed element with left side or right side
-    <param> tims
-    <param> left
+    @param tims
+    @param left
      */
     public Template get (int times, boolean left){
         Template ans = null;
@@ -131,9 +133,9 @@ public class Tree <Template>{
         return ans;
     }
 
-    /*
+    /**
     add element to tree
-    <param> t :: Template
+    @param t :: Template
      */
     public void add(Template  t) {
         if (this.value == null) {
@@ -156,9 +158,9 @@ public class Tree <Template>{
     }
     // public methods end
 
-    /*
+    /**
      get smallest but not the one that has
-     <param> not :: Template
+     @param not :: Template
      */
     public Template getSmallest (Template not){
         Template ans = null;
@@ -179,7 +181,7 @@ public class Tree <Template>{
         return ans;
     }
 
-    /*
+    /**
     get smallest
      */
     public Template getSmallest (){
@@ -193,9 +195,9 @@ public class Tree <Template>{
         return ans;
     }
 
-    /*
+    /**
     conatins method to decide if Tree contains a particular element
-    <param> t :: Template : to add
+    @param t :: Template : to add
      */
     public boolean contains(Template t){
         boolean ans = false;
@@ -212,9 +214,9 @@ public class Tree <Template>{
         return ans;
     }
 
-    /*
+    /**
     remove element t :: Template from Tree
-    <param> t :: Template
+    @param t :: Template
      */
     public void remove (Template t){
         boolean ans = false;

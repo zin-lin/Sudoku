@@ -2,7 +2,7 @@ package com.napier.sudoku.models;
 
 import java.util.ArrayList;
 
-/*
+/**
 Game Engine is the entry point
 Author : Zin Lin Htun
 @matric : 40542237@live.napier.ac.uk
@@ -37,7 +37,11 @@ public class Vector {
         this.column = column;
     }
 
-    //public constructor
+    /**
+     * public constructor
+     * @param row
+     * @param column
+     */
     public Vector(int row, int column)
     {
         // row is Y Axis where X is column
@@ -45,14 +49,17 @@ public class Vector {
         this.column = column;
     }
 
-    /*
-    This method is overridden in such a way that it supports a balanced tree
+    /**
+    Override the toString method
      */
     @Override
     public String toString (){
         return  this.column +"," + this.row;
     }
 
+    /**
+    Override equals method
+     */
     @Override
     public boolean equals(Object compare){
         boolean ans = false;
@@ -61,6 +68,9 @@ public class Vector {
         return ans;
     }
 
+    /**
+    get rows
+     */
     @Deprecated
     public static ArrayList<Integer>getRows(ArrayList<Vector> arrayList, int column){
         ArrayList<Integer>integers = new ArrayList<>();
