@@ -278,7 +278,7 @@ public class SudokuEngine {
     }
 
     /**
-     * showing prompts
+     * showing prompts, for the game
      */
     public void showPrompts (){
 
@@ -292,7 +292,7 @@ public class SudokuEngine {
             Helper.printPossibilities(array, cell, yAxis, xAxis );
         }
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // create a scanner
         String value = scanner.nextLine(); // get input from user
 
         // Move Around

@@ -1,19 +1,22 @@
 package com.napier.sudoku.persistence;
 
-/* Class Database :: to deal with data persistence for undo and redo
+/**
+ Class Database :: to deal with data persistence for undo and redo
  Author : Zin Lin Htun
  @matric : 40542237@live.napier.ac.uk */
 
+import com.napier.sudoku.models.Action;
 import com.napier.sudoku.models.Vector;
 import com.napier.sudoku.models.memory.Tree;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Database {
 
-    /*
+    /**
     getGames get all the games from the database
     <return> games :: Tree <String>
      */
@@ -28,7 +31,7 @@ public class Database {
         return tree;
     }
 
-    /*
+    /**
     write Database will write file for each game.
     <param> name :: String
      */
@@ -37,7 +40,7 @@ public class Database {
         fileWriter.append("");
     }
 
-    /*
+    /**
     add a movement to the file
     <param> file :: String
     <param> origin :: Vector
@@ -49,12 +52,19 @@ public class Database {
                 (destination.getRow()+"-"+destination.getColumn())+ "\n");
     }
 
-    /*
+    /**
     add a movement to the file
      */
     public static void addInsertion (String file, Vector cell, int oldVal, int newVal) throws IOException {
         FileWriter fileWriter = new FileWriter(file);
         fileWriter.append("<INS>," +(cell.getRow()+"-"+cell.getColumn())+","+
                 oldVal+","+ newVal + "\n");
+    }
+
+    /**
+    add an action in.
+     */
+    public static void addStack (ArrayList<Action> actions){
+
     }
 }
