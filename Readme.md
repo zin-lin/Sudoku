@@ -11,7 +11,7 @@
 - Zin Lin Htun
 - Project Status ![GitHub Workflow Status Master](https://img.shields.io/github/actions/workflow/status/zin-lin/Sudoku/main.yml)
 - [![LICENSE](https://img.shields.io/github/license/zin-lin/Sudoku.svg?style=flat-square)](https://github.com/zin-lin/Sudoku/blob/main/LICENCE)
-
+- <b style='color:red'>`WARNING`</b>- If any unauthorised use is made, there will be academics consequences
 
 ### Tool Chain 🔨
 - `Java` ☕
