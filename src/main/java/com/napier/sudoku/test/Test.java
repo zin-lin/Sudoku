@@ -1,4 +1,5 @@
 package com.napier.sudoku.test;
+import com.napier.sudoku.GameEngine;
 import com.napier.sudoku.SudokuEngine;
 import com.napier.sudoku.models.SudokuGrid;
 import com.napier.sudoku.models.memory.Tree;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Timer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Test {
 
@@ -106,9 +108,47 @@ public class Test {
         }
     }
 
+
     public static void main (String args []){
-        testCHATGPT();
+
+        AtomicBoolean run  = new AtomicBoolean(true);
+        SudokuEngine engine = new SudokuEngine(9,9,5,true);
+        Tester tester = new Tester(engine);
+       tester.start();
+        try {
+            Thread.sleep(5000);
+            System.out.println("Done running ");
+            tester.setStop(true);
+
+
+            ;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 
+}
+
+class Tester extends Thread {
+    public SudokuEngine engine;
+    private volatile Boolean stop = false;
+    public Boolean getStop() {
+        return stop;
+    }
+
+    public void setStop(Boolean stop) {
+        engine.setForceStop(true);
+        this.stop = stop;
+    }
+
+    public Tester(SudokuEngine engine) {
+        this.engine = engine;
+    }
+    @Override
+    public void run() {
+        engine.startGame();
+    }
 }

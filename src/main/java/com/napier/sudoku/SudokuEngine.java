@@ -23,10 +23,12 @@ public class SudokuEngine {
     private Vector cell;
     private int [][] array;
     private int [][] game;
+    private boolean forceStop;
 
     private int level;
     private boolean help;
     private Tree<Vector> cells;
+
     /**
      * resetting the game
      */
@@ -97,7 +99,10 @@ public class SudokuEngine {
 
         final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
         final String ANSI_RED = "\u001b[31m"; final String ANSI_GREEN = "\u001b[32m";
-
+        if (forceStop){
+            finalizeObject();
+            return;
+        }
         boolean solved = false;
         if (!start) {
             solved = Helper.checkGamneEnd(array, cells, yAxis, xAxis); // everyting check is with binary search tree so it's pretty fast.
@@ -508,6 +513,15 @@ public class SudokuEngine {
 
     }
 
+    public boolean isForceStop() {
+        return forceStop;
+    }
+
+    public void setForceStop(boolean forceStop) {
+        System.out.println("forced");
+        this.forceStop = forceStop;
+    }
+
     /** Public Constructor
      *
      * @param xAxis, length for x axis
@@ -519,6 +533,7 @@ public class SudokuEngine {
         help = false;
         this.xAxis = xAxis; this.yAxis = yAxis; // set things
         cells = new Tree<>(null); // Initiating
+        forceStop = false;
         // write sudoku grid
         _writeGridStart(this.yAxis, this.xAxis);
 
@@ -528,11 +543,23 @@ public class SudokuEngine {
     /**
      * Constructor
      */
-    public SudokuEngine(){
+    public SudokuEngine(int xAxis, int yAxis, int level, boolean isTimed){
+        this.level = level;
         help = false;
-        this.xAxis = 9; this.yAxis = 9; // set things
+        this.xAxis = xAxis; this.yAxis = yAxis; // set things
         cells = new Tree<>(null); // Initiating
-        // write sudoku grid
+        forceStop = false;
+        if (!isTimed) {// write sudoku grid
+            _writeGridStart(this.yAxis, this.xAxis);
+        }
+    }
+
+    public void startGame(){
         _writeGridStart(this.yAxis, this.xAxis);
+    }
+
+    public void finalizeObject() {
+        System.out.println("Exiting Sudoku Engine---------------------------------------------------------------->  " );
+
     }
 }
