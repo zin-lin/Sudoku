@@ -1,12 +1,14 @@
 package com.napier.sudoku;
 
 import com.napier.sudoku.models.Helper;
+import com.napier.sudoku.models.Resizoku;
 import com.napier.sudoku.models.SudokuGrid;
 import com.napier.sudoku.models.memory.Tree;
 import com.napier.sudoku.models.Vector;
 import com.napier.sudoku.random.Randomiser;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -97,6 +99,7 @@ public class SudokuEngine {
      */
     private void  _writeGrid_cmd(boolean start){
 
+        int sqrt = (int)Math.sqrt(this.yAxis);
         final String ANSI_BLUE = "\u001B[34m"; final String ANSI_RESET = "\u001B[0m"; final String ANSI_YELLOW = "\u001b[33m";
         final String ANSI_RED = "\u001b[31m"; final String ANSI_GREEN = "\u001b[32m";
         if (forceStop){
@@ -110,27 +113,39 @@ public class SudokuEngine {
         if (solved) {
             System.out.println(ANSI_GREEN + "Solved!" + ANSI_RESET);
         }
+        // if not solved
         if (!solved){
             for (int i = 0; i < yAxis; i++) {
                 Tree<Integer> random;
                 if (start) {
                     // randomise the values to be ommitted
-                    random = Randomiser.generateTreeList(level, xAxis);
+                    if (xAxis ==9) {
+                        random = Randomiser.generateTreeList(level, xAxis);
+                    }
+                    else{
+                        random = new Tree<>(null);
+                        for (int c = 1; c < yAxis; c++){
+                            Random ran = new Random();
+                            if (ran.nextInt(2) == 0)
+                                random.add(c);
+                        }
+                    }
                 } else {
                     // random is now a balance tree. Usually from 1-9 would be a linear architecture
-                    // with balancedTree from helper class, this can be done
-                    random = new Tree<>(null);
-                    random = Helper.balancedTree(1,9);
+                        // with balancedTree from helper class, this can be done
+                        random = new Tree<>(null);
+                        random = Helper.balancedTree(1, yAxis);
+
                 }
                 // set up strings
                 String upperBound = "╔═════╗ ";
                 String leftBound = "║  ";
-                String rightBound = "  ║ ";
+                String rightBound = " ║ ";
                 String lowerBound = "╚═════╝ ";
                 String printer = "";
                 // each line is written
                 for (int i1 = 0; i1 < xAxis; i1++) {
-                    String ending = (i1 + 1) % 3 == 0 ? "  " : "";
+                    String ending = (i1 + 1) % sqrt == 0 ? "  " : "";
                     printer += (upperBound + ending);
                     System.out.print(upperBound + ending);
                 }
@@ -144,20 +159,22 @@ public class SudokuEngine {
                     if (random.contains(current)) {
                         // if the current number is in random, show otherwise replace with a zero
                         randomizer = Integer.toString(current);
+                        randomizer = randomizer.length() == 2? randomizer: randomizer + " ";
                         if (start)
                             cells.add(new Vector(i, i1));
 
                     } else {
                         array[i][i1] = 0;
+                        // determining the starting position
                         if (this.cell == null) {
-                            randomizer = "X";
+                            randomizer = "X ";
                             this.cell = new Vector(i, i1);
                         } else if (this.cell.getColumn() == i1 && this.cell.getRow() == i) {
-                            randomizer = "X";
+                            randomizer = "X ";
                         } else
-                            randomizer = " ";
+                            randomizer = "  ";
                     }
-                    String ending = (i1 + 1) % 3 == 0 ? "  " : "";
+                    String ending = (i1 + 1) % sqrt == 0 ? "  " : "";
                     if (!help) {
                         try {
                             if (!new Vector(i, i1).equals(cell)) {
@@ -221,7 +238,7 @@ public class SudokuEngine {
                 printer += "\n";
 
                 for (int i1 = 0; i1 < xAxis; i1++) {
-                    String ending = (i1 + 1) % 3 == 0 ? "  " : "";
+                    String ending = (i1 + 1) % sqrt == 0 ? "  " : "";
                     printer += lowerBound + ending;
                     System.out.print(lowerBound + ending);
                 }
@@ -229,7 +246,7 @@ public class SudokuEngine {
                 printer += "\n";
 
 
-                if ((i + 1) % 3 == 0) {
+                if ((i + 1) % sqrt == 0) {
                     System.out.print("\n");
                 }
             }// for
@@ -244,7 +261,7 @@ public class SudokuEngine {
     Write in Sudoku Grid
      */
     private  void _writeGridStart(int yAxis, int xAxis){
-        SudokuGrid generator = new SudokuGrid(yAxis,xAxis);
+        SudokuGrid generator = new SudokuGrid(yAxis);
         // I want a clear console here
         _separate();
         this.game = generator.getGame(); // get the array
@@ -257,6 +274,26 @@ public class SudokuEngine {
             //System.out.print("\n");
         }
 
+        _writeGrid_cmd(true);
+
+    }
+
+    /**
+     Write in Sudoku Grid
+     */
+    private  void _writeGridStart(int gridcount){
+        Resizoku generator = new Resizoku(yAxis);
+        // I want a clear console here
+        _separate();
+        generator.solveBruteForce();
+        this.game = generator.grid ; // get the array
+        this.array = new int [yAxis][xAxis];
+        for(int i = 0; i<game.length; i++){
+            for (int i1 = 0; i1< game[i].length; i1++ ){
+                array[i][i1] = game[i][i1];
+            }
+        }
+        Helper.printSudoku(this.array);
         _writeGrid_cmd(true);
 
     }
@@ -441,13 +478,13 @@ public class SudokuEngine {
                     }
                     else if (args[1].equals("<printGrid>") || args[1].equals("<printAnswer>")) {
                         System.out.println("Printing Answer ----> " + ANSI_BLUE );
-                        Helper.printSudoku9x9(game);
+                        Helper.printSudoku(game);
                         System.out.print(ANSI_YELLOW);
 
                     }
                     else if (args[1].equals("<solve>") || args[1].equals("<solveGame>")) {
                         array = new int[yAxis][xAxis];
-                        Helper.printSudoku9x9(game);
+                        Helper.printSudoku(game);
                         for (int i = 0; i < game.length; i++){
                             array[i] = game[i];
                         }
@@ -472,7 +509,7 @@ public class SudokuEngine {
             try {
                 // parsing to value
                 int val = Integer.parseInt(value);
-                if (val >= 1 || val <= 9) {
+                if (val >= 0 || val <= yAxis) {
                     array[cell.getRow()][cell.getColumn()] = val;
                 }
                 _separate();
@@ -495,6 +532,9 @@ public class SudokuEngine {
                                 _separate();
                                 _writeGrid_cmd(false);
                             }
+                        }else {
+                            _separate();
+                            _writeGrid_cmd(false);
                         }
                     }
                     else {
@@ -522,31 +562,41 @@ public class SudokuEngine {
         this.forceStop = forceStop;
     }
 
+    public SudokuEngine(int gridCount){
+
+        this.level = 5;
+        help = false;
+        this.xAxis = gridCount; this.yAxis = gridCount; // set things
+        cells = new Tree<>(null); // Initiating
+        forceStop = false;
+        // write sudoku grid
+        _writeGridStart(gridCount);
+    }
+
     /** Public Constructor
      *
      * @param xAxis, length for x axis
      * @param yAxis, length for y axis
      * @param level, hard, medium, easy
      */
-    public SudokuEngine(int xAxis, int yAxis, int level){
+    public SudokuEngine(int count, int level){
         this.level = level;
         help = false;
-        this.xAxis = xAxis; this.yAxis = yAxis; // set things
+        this.xAxis = count; this.yAxis = count; // set things
         cells = new Tree<>(null); // Initiating
         forceStop = false;
         // write sudoku grid
         _writeGridStart(this.yAxis, this.xAxis);
 
-    }// Constructor
-    // Default Constructor
+    }
 
     /**
      * Constructor
      */
-    public SudokuEngine(int xAxis, int yAxis, int level, boolean isTimed){
+    public SudokuEngine(int count, int level, boolean isTimed){
         this.level = level;
         help = false;
-        this.xAxis = xAxis; this.yAxis = yAxis; // set things
+        this.xAxis = count; this.yAxis = count; // set things
         cells = new Tree<>(null); // Initiating
         forceStop = false;
         if (!isTimed) {// write sudoku grid

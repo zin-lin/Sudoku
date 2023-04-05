@@ -1,6 +1,12 @@
 package com.napier.sudoku.models;
 import com.napier.sudoku.models.memory.Tree;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  *  Helper - The purpose of the helper class is to help check the Sudoku Grid
    Author : Zin Lin Htun
@@ -13,16 +19,17 @@ public class Helper {
      */
     public static int [][] shuffleStep1 (int [][] array) {
 
+        int sqrt = (int)Math.sqrt(array.length) ;
         // Nae checks and 9 movements:: Smashingggg!
-        for (int i = 0; i < array.length; i += 3) {
+        for (int i = 0; i < array.length; i += sqrt) {
             // skips the array by 3
             int topRowOfSquare = i;
-            for (int column = 0; column< array[i].length; column+=3) {
+            for (int column = 0; column< array[i].length; column+=sqrt) {
 
-                int desireColumn = column+2;
-                int swap = array[topRowOfSquare + 1][desireColumn];
-                array[topRowOfSquare + 1][desireColumn] = array[topRowOfSquare + 2][desireColumn];
-                array[topRowOfSquare + 2][desireColumn] = swap;
+                int desireColumn = column+(sqrt-1);
+                int swap = array[topRowOfSquare + (sqrt-2)][desireColumn];
+                array[topRowOfSquare + (sqrt-2)][desireColumn] = array[topRowOfSquare + (sqrt-1)][desireColumn];
+                array[topRowOfSquare + (sqrt-1)][desireColumn] = swap;
             }
         }
         return array;
@@ -32,6 +39,7 @@ public class Helper {
     @param array :: int [][], array to change.
      */
     public static int [][] shuffleStep2(int [][] array){
+        int sqrt = (int)Math.sqrt(array.length) ;
         {
             int [] a1 = array[0];
             int [] a2 = array[3];
@@ -48,10 +56,12 @@ public class Helper {
     @param array :: int [][], array to change.
      */
     public static int [][] shuffleStep3(int [][] array){
-        for (int i =0; i <array.length; i += 3){
+        int sqrt = (int)Math.sqrt(array.length) ;
+
+        for (int i =0; i <array.length; i += sqrt){
             // switch 1
-            int quo = i/3;
-            int rem = quo % 3;
+            int quo = i/sqrt;
+            int rem = quo % sqrt;
 
             if (rem == 1){
                 int [] a1 = array[i];
@@ -78,14 +88,15 @@ public class Helper {
      */
     public static int [][] shuffleStep4(int [][] array) {
         // 4 a
+        int sqrt = (int)Math.sqrt(array.length) ;
         {
-            for (int i = 0; i < array.length; i += 3) {
+            for (int i = 0; i < array.length; i +=sqrt) {
                 //+3 so more efficient
-                int quo = i / 3;
-                int rem = quo % 3;
+                int quo = i / sqrt;
+                int rem = quo %sqrt;
 
                 if (rem == 0) {
-                    for (int ii = 0; ii < array[i].length; ii += 3) {
+                    for (int ii = 0; ii < array[i].length; ii += sqrt) {
                         // 1st line of squares
 
                         int i1 = array[i+2][ii];
@@ -98,7 +109,7 @@ public class Helper {
                 }
 
                 else if (rem == 2 ||  rem ==1) {
-                    for (int ii = 0; ii < array[i].length; ii += 3) {
+                    for (int ii = 0; ii < array[i].length; ii += sqrt) {
                         // 1st line of squares
 
                         int i2 = array[i][ii + 1];
@@ -112,7 +123,7 @@ public class Helper {
         }
         // 4 b
         {
-            for (int i = 0; i < array.length; i+=3){
+            for (int i = 0; i < array.length; i+=sqrt){
                 int i1 = array[7][i];
                 int i2 = array[6][i + 1];
                 int i3 = array[7][i + 2];
@@ -153,6 +164,7 @@ public class Helper {
     }
 
     private static Tree<Integer> _checkAgainstTree (int [][] array, Vector cell, int yAxis , int xAxis){
+        int sqrt = (int) Math.sqrt(yAxis);
         Tree<Integer> checkAgainst = new Tree<Integer>(null);
         // for every row
         for (int row = 0; row < yAxis; row++) {
@@ -176,12 +188,12 @@ public class Helper {
         }
         // for every square
         {
-            int quoY = cell.getRow()/3;
-            int quoX = cell.getColumn() /3;
-            int squareY = (quoY)*3;
-            int squareX = (quoX)*3;
-            for (int i = 0; i < 3; i++){
-                for (int j = 0; j < 3; j++){
+            int quoY = cell.getRow()/sqrt;
+            int quoX = cell.getColumn() /sqrt;
+            int squareY = (quoY)*sqrt;
+            int squareX = (quoX)*sqrt;
+            for (int i = 0; i < sqrt; i++){
+                for (int j = 0; j < sqrt; j++){
                     if (!(i+squareY == cell.getRow() && squareX+ j == cell.getColumn())){
                         // don't check for itself
                         if (array[squareY+i][squareX+j]!= 0){
@@ -194,6 +206,30 @@ public class Helper {
 
         }
         return checkAgainst;
+    }
+
+    public static int [][] shuffleTransverse(int[][] array){
+        // step 1 : randomise all the rows
+        ArrayList<Integer>factors = new ArrayList<Integer>();
+        int sqrt = (int)Math.sqrt(array.length);
+        for (int i = 0; i < sqrt; i++){
+            factors.add(i);
+        }
+        for (int row = 0; row < array.length; row++){
+            int remainder = row%sqrt;
+            Random r = new Random();
+            int random = r.nextInt(sqrt-1);
+            // redoing if the value is the same enforcing the switching process
+            {
+                while (random == row)
+                    random = r.nextInt(sqrt-1);
+            }
+            int [] arraySwitch = array[row];
+            array[row] = array[(random*sqrt) + remainder];
+            array[(random*sqrt) + remainder] = arraySwitch;
+        }
+
+        return array;
     }
 
     /**
@@ -216,6 +252,7 @@ public class Helper {
         return ans;
     }
 
+
     /**
     Check if the game has eneded
     @param array
@@ -224,7 +261,7 @@ public class Helper {
      */
     public static boolean checkGamneEnd (int [][] array, Tree<Vector> og, int yAxis , int xAxis) {
         boolean ans = true;
-        // og meeans original
+        // og means original
         for (int row = 0; row < yAxis; row ++ ){
             for (int column = 0; column < xAxis; column ++){
                 Vector cell = new Vector(row, column);
@@ -233,7 +270,6 @@ public class Helper {
                         return false;
                     }
                 }
-
             }
         }
         if (ans)
@@ -266,26 +302,175 @@ public class Helper {
     Print the sudoku 9x9 in fashion
     @param array
      */
-    public static void printSudoku9x9 (int [][]array) {
+    public static void printSudoku (int [][]array) {
+        int sqrt = (int)Math.sqrt(array.length);
         for (int i = 0; i < array.length; i++){
-            for (int j = 0; j < array[i].length; j +=3 ){
+            for (int j = 0; j < array[i].length; j +=sqrt ){
                 try {
-                    System.out.print(array[i][j] + " ");
-                    Thread.sleep(50);
-                    System.out.print(array[i][j + 1] + " ");
-                    Thread.sleep(50);
-                    System.out.print(array[i][j + 2] + " ");
-                    Thread.sleep(50);
-                    System.out.print("| ");
-                    Thread.sleep(50);
+                    for (int k = 0; k < sqrt; k++) {
 
+                        String code  = (array[i][j+k] == 0) ? "-": (array[i][j+k]+"");
+                        System.out.print(((array[i][j+k] == 0) ? "-": (array[i][j+k]+"") )+ (code.length()==2?" ":"  "));
+
+                    }
+
+                    System.out.print("| ");
                 }catch (Exception err){
                     //Do Abs Nth
                 }
             }
             System.out.print("\n");
-            if ((i+1) % 3 == 0)
-                System.out.println("-----------------------");
+            if ((i+1) % sqrt == 0) {
+                for (int j = 0; j < (array.length*3)+(sqrt-1)*2; j++)
+                System.out.print("-");
+                System.out.print("\n");
+            }
         }
     }
+
+    /**
+     * extract numbers that are of else
+     */
+    private static ArrayList<Integer> _extractElse(Tree<Integer> checkAgainst, int bound){
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (int i = 1; i < bound+1; i++){
+            if (!checkAgainst.contains(i))
+                result.add(i);
+        }
+        return result;
+    }
+
+    /**
+     Check if the cell grid is valid
+     @param array
+     @param cell
+     @param yAxis, @param xAxis
+     */
+    public static int _generateNum (int [][] array, Vector cell, int gridCount){
+        int yAxis = gridCount; int xAxis = gridCount;
+        int ans = 0;
+        int desireColumn = cell.getColumn(); int desireRow = cell.getRow();
+        // set up tree
+        Tree <Integer> checkAgainst = _checkAgainstTree(array, cell, yAxis, xAxis);
+        // if duplicates are to occur than it won't add helping both time and space complexity, since a tree has to be unique.
+        ArrayList<Integer> availables = _extractElse(checkAgainst, yAxis);
+        Random random = new Random();
+        if (availables.size()==1)
+        {
+            return availables.get(0);
+        }
+        else if (availables.size()==0)
+            ans = Integer.MIN_VALUE;
+        else {
+            //System.out.println(availables.size());
+            int ansIndex = random.nextInt(availables.size());
+            ans = availables.get(ansIndex);
+        }
+        return ans;
+
+    }
+
+    /**
+     Check if the cell grid is valid
+     @param array
+     @param cell
+     @param yAxis, @param xAxis
+     */
+    public static ArrayList<Integer> getPossibilities (int [][] array, Vector cell, int gridCount){
+        int yAxis = gridCount; int xAxis = gridCount;
+        int ans = 0;
+        int desireColumn = cell.getColumn(); int desireRow = cell.getRow();
+        // set up tree
+        Tree <Integer> checkAgainst = _checkAgainstTree(array, cell, yAxis, xAxis);
+        // if duplicates are to occur than it won't add helping both time and space complexity, since a tree has to be unique.
+        ArrayList<Integer> availables = _extractElse(checkAgainst, yAxis);
+
+        return availables;
+
+    }
+
+    /**
+     * if there are any 0s left
+     * @param array
+     * @return
+     */
+    public static boolean _finished(int [][] array){
+        boolean ans = true;
+        for (int row = 0; row< array.length; row++){
+            for (int column = 0; column< array[row].length; column++){
+                if (array[row][column]  == 0)
+                    return false;
+            }
+        }
+        return ans;
+    }
+
+    public static int [][] diagonaliseGrid(int gridCount){
+        int [][] array = new int [gridCount][gridCount];
+        int sqrt = (int) Math.sqrt(gridCount);
+        ArrayList <Integer >arrayList = new ArrayList<Integer>();
+        for (int i = 1; i < gridCount+1; i++) {
+            arrayList.add(i);
+        }
+        Collections.shuffle(arrayList);
+        //step - 1 solve diagonals.
+        { // each sqaure-line
+            int factor = 0;
+            int index = 0;
+            for (int sq = 0; sq < gridCount; sq += sqrt) {
+                for (int x = 0; x < sqrt; x++) {
+                    array[sq][x+sq] = arrayList.get(index);
+                    index++;
+                }
+            }
+        }
+        return array;
+    }
+
+    /**
+     * solve game brute force
+     * @return
+     */
+    public static boolean solveGameBruteForce (int [][]array){
+
+
+        int gridCount = array.length;
+        ArrayList<Integer>avaialables = new ArrayList<>();
+
+        // step 1 - skim
+        for (int row = 0; row < gridCount; row++) {
+            for (int column = 0; column< gridCount; column++) {
+                if (array[row][column] ==0) {
+                    avaialables = getPossibilities(array,new Vector(row, column),gridCount);
+                    System.out.println(avaialables.size() );
+                    for (int i = 0; i < avaialables.size(); i++) {
+
+                        int num = avaialables.get(i);
+                        array[row][column] = num;
+                        if (solveGameBruteForce(array)) {
+                            return true;
+                        } else {
+                            array[row][column] = 0;
+                        }
+
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Outer usage
+     * @param integer
+     * @param factor
+     * @return
+     */
+    public static int getGridNum (int integer, int factor){
+        return integer/factor;
+    }
+
+
+
 }

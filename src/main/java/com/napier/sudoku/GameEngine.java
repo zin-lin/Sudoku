@@ -16,7 +16,7 @@ public class GameEngine {
      * @param level , level of the game
      */
     private static void _parallelise(int timeLimit, int level) {
-        SudokuEngine engine = new SudokuEngine(9,9,6-level,true);
+        SudokuEngine engine = new SudokuEngine(9,6-level,true);
         GameThread gameThread = new GameThread(engine, Thread.currentThread());
 
         gameThread.start();
@@ -25,7 +25,7 @@ public class GameEngine {
             System.out.println("Game Over, time limit of " + timeLimit + " seconds reached, enter any key to exit");
             gameThread.setStop(true);
         } catch (InterruptedException e) {
-            System.out.println("Game Won");
+            System.out.println("Game is Finished");
         }
         try {
             gameThread.join();
@@ -132,25 +132,29 @@ public class GameEngine {
                         switch (levelText)
                         {
                             case 1: {
-                                SudokuEngine sudokuEngine = new SudokuEngine(9, 9, 5); // Standard Sudoku
+                                SudokuEngine sudokuEngine = new SudokuEngine(9,  5); // Standard Sudoku
+                                _game();
                                 break;
                             }
                             case 2: {
-                                SudokuEngine sudokuEngine = new SudokuEngine(9, 9, 4); // Standard Sudoku
+                                SudokuEngine sudokuEngine = new SudokuEngine(9, 4); // Standard Sudoku
+                                _game();
                                 break;
                             }
                             case 3:{
-                                SudokuEngine sudokuEngine = new SudokuEngine(9, 9, 3); // Standard Sudoku
+                                SudokuEngine sudokuEngine = new SudokuEngine(9,  3); // Standard Sudoku
+                                _game();
                                 break;
                             }
                             default:
-                                SudokuEngine sudokuEngine = new SudokuEngine(9, 9,3); // Standard Sudoku
+                                SudokuEngine sudokuEngine = new SudokuEngine(9, 3); // Standard Sudoku
+                                _game();
                                 break;
                         }
                     }
                     default:
                     {
-                        SudokuEngine sudokuEngine = new SudokuEngine(9, 9,3); // Standard Sudoku
+                        SudokuEngine sudokuEngine = new SudokuEngine(9, 3); // Standard Sudoku
                         _game();
                         break;
                     }
@@ -158,10 +162,23 @@ public class GameEngine {
             }
             case 2: {
                 // Customs
+                break;
 
             }
             case 3: {
                 // Hardcore Sudoku
+
+                System.out.println("Enter a square number: ");
+                int square;
+                try {
+                    square = Integer.parseInt(scanner.nextLine());
+                }catch (Exception exception){
+                    square = 0;
+                    break;
+                }
+                SudokuEngine sudokuEngine = new SudokuEngine(square);
+                _game();
+                break;
 
             }
             case 4: {
