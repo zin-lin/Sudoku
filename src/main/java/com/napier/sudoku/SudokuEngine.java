@@ -251,6 +251,7 @@ public class SudokuEngine {
                 }
             }// for
 
+            Helper.printSudoku(this.array);
             showPrompts();
         }// if
     }

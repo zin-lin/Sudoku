@@ -133,21 +133,25 @@ public class GameEngine {
                         {
                             case 1: {
                                 SudokuEngine sudokuEngine = new SudokuEngine(9,  5); // Standard Sudoku
+                                sudokuEngine = null;
                                 _game();
                                 break;
                             }
                             case 2: {
                                 SudokuEngine sudokuEngine = new SudokuEngine(9, 4); // Standard Sudoku
+                                sudokuEngine = null;
                                 _game();
                                 break;
                             }
                             case 3:{
                                 SudokuEngine sudokuEngine = new SudokuEngine(9,  3); // Standard Sudoku
+                                sudokuEngine = null;
                                 _game();
                                 break;
                             }
                             default:
                                 SudokuEngine sudokuEngine = new SudokuEngine(9, 3); // Standard Sudoku
+                                sudokuEngine = null;
                                 _game();
                                 break;
                         }
@@ -155,6 +159,7 @@ public class GameEngine {
                     default:
                     {
                         SudokuEngine sudokuEngine = new SudokuEngine(9, 3); // Standard Sudoku
+                        sudokuEngine = null;
                         _game();
                         break;
                     }
@@ -177,6 +182,7 @@ public class GameEngine {
                     break;
                 }
                 SudokuEngine sudokuEngine = new SudokuEngine(square);
+                sudokuEngine = null;
                 _game();
                 break;
 

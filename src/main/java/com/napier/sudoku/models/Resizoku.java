@@ -132,7 +132,7 @@ public class Resizoku {
     /**
      *
      */
-    public boolean checkGameEnd() {
+    public boolean checkStartEnd() {
         int sqrt= (int)Math.sqrt(grid.length);
         for (int row = 0; row < sqrt; row++ ){
             for (int column = 0; column < grid.length; column++){
@@ -165,6 +165,7 @@ public class Resizoku {
             grid = new int[count][count];
             int[][] array = grid;
             int len = array.length;
+
             int sqrt = (int) Math.sqrt(len);
             ArrayList<Integer> list = new ArrayList<Integer>();
             for (int i = 1; i <= len; i++) {
@@ -186,9 +187,24 @@ public class Resizoku {
                 }
             }
             this.fix();
-            if (checkGameEnd())
+            if (checkStartEnd())
                 break;
         }
+
+        int sqrt = (int)Math.sqrt(grid.length);
+        for (int row = sqrt; row < grid.length; row++){
+            for (int column = 0; column< grid.length; column+=sqrt){
+                for (int columnG = column; columnG < column+sqrt; columnG++){
+                    if(columnG+1 < column+sqrt){
+                        grid[row][columnG] = grid[row - sqrt][columnG + 1];
+                    }else{
+                        grid[row][columnG] = grid[row - sqrt][column];
+                    }
+                }
+            }
+        }
+        Helper.shuffleTransverse(grid);
+        Helper.shuffleStep3(grid);
 
     }
 

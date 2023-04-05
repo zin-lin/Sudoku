@@ -2,6 +2,7 @@ package com.napier.sudoku.test;
 import com.napier.sudoku.GameEngine;
 import com.napier.sudoku.SudokuEngine;
 import com.napier.sudoku.models.Helper;
+import com.napier.sudoku.models.Resizoku;
 import com.napier.sudoku.models.SudokuGrid;
 import com.napier.sudoku.models.memory.Tree;
 
@@ -145,11 +146,11 @@ public class Test {
 
 
         long i = System.currentTimeMillis();
-        SudokuGrid grid = new SudokuGrid(5, 25);
-        grid.solveGameBruteForce();
+        Resizoku grid = new Resizoku( 36);
+        grid.solveBruteForce();
         long i1 = System.currentTimeMillis();
         System.out.println(i1-i + " ms");
-        Helper.printSudoku(grid.getGame());
+        Helper.printSudoku(grid.grid);
 
 
     }
