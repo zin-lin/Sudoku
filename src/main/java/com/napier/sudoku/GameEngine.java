@@ -1,4 +1,6 @@
 package com.napier.sudoku;
+import com.napier.sudoku.models.Vector;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
@@ -42,7 +44,7 @@ public class GameEngine {
     private static void _game(){
         System.out.println("Choose Game: ");
         System.out.println("1) Standard Sudoku Game");
-        System.out.println("2) Sudoku Define Yourself");
+        System.out.println("2) Irregular Sudoku Game");
         System.out.println("3) Hardcore Sudoku");
         System.out.println("4) settings");
         System.out.println("q to quit");
@@ -167,6 +169,20 @@ public class GameEngine {
             }
             case 2: {
                 // Customs
+                System.out.println("Enter row and column: ");
+                int x;
+                int y;
+
+                try {
+                    x = Integer.parseInt(scanner.nextLine());
+                    y = Integer.parseInt(scanner.nextLine());
+                }catch (Exception exception){
+                    x = 0; y=0;
+                    break;
+                }
+                SudokuEngine sudokuEngine = new SudokuEngine(new Vector(x,y));
+                sudokuEngine = null;
+                _game();
                 break;
 
             }
@@ -177,6 +193,8 @@ public class GameEngine {
                 int square;
                 try {
                     square = Integer.parseInt(scanner.nextLine());
+                    int sqrt = (int)Math.sqrt(square);
+                    square = sqrt*sqrt;
                 }catch (Exception exception){
                     square = 0;
                     break;

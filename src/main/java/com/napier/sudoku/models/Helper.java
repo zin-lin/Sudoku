@@ -14,6 +14,37 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Helper {
 
     /**
+     * This method will get the number of each needed number
+     * @param array
+     * @param game
+     * @param req
+     * @return
+     */
+    public static int getNumberOfGaps (int [][] array, int [][] game, int req ) {
+        int count = 0;
+        int totalCount = 0;
+        int x = game.length;
+        int y = game[0].length;
+        for (int row = 0;row< x; row++){
+            for (int col = 0; col < y; col++){
+                if (array[row][col] == req)
+                    count++;
+            }
+        }
+        for (int row = 0; x < x; row++){
+            for (int col = 0; col < y; col++){
+                if (game[row][col] == req)
+                    totalCount++;
+            }
+        }
+
+        System.out.println(count);
+        System.out.println(totalCount);
+        return totalCount - count;
+    }
+
+
+    /**
     Achive the first step of 1 in algo.txt
     @param array :: int [][], array to change.
      */
@@ -340,35 +371,6 @@ public class Helper {
         return result;
     }
 
-    /**
-     Check if the cell grid is valid
-     @param array
-     @param cell
-     @param yAxis, @param xAxis
-     */
-    public static int _generateNum (int [][] array, Vector cell, int gridCount){
-        int yAxis = gridCount; int xAxis = gridCount;
-        int ans = 0;
-        int desireColumn = cell.getColumn(); int desireRow = cell.getRow();
-        // set up tree
-        Tree <Integer> checkAgainst = _checkAgainstTree(array, cell, yAxis, xAxis);
-        // if duplicates are to occur than it won't add helping both time and space complexity, since a tree has to be unique.
-        ArrayList<Integer> availables = _extractElse(checkAgainst, yAxis);
-        Random random = new Random();
-        if (availables.size()==1)
-        {
-            return availables.get(0);
-        }
-        else if (availables.size()==0)
-            ans = Integer.MIN_VALUE;
-        else {
-            //System.out.println(availables.size());
-            int ansIndex = random.nextInt(availables.size());
-            ans = availables.get(ansIndex);
-        }
-        return ans;
-
-    }
 
     /**
      Check if the cell grid is valid
@@ -384,48 +386,10 @@ public class Helper {
         Tree <Integer> checkAgainst = _checkAgainstTree(array, cell, yAxis, xAxis);
         // if duplicates are to occur than it won't add helping both time and space complexity, since a tree has to be unique.
         ArrayList<Integer> availables = _extractElse(checkAgainst, yAxis);
-
         return availables;
 
     }
 
-    /**
-     * if there are any 0s left
-     * @param array
-     * @return
-     */
-    public static boolean _finished(int [][] array){
-        boolean ans = true;
-        for (int row = 0; row< array.length; row++){
-            for (int column = 0; column< array[row].length; column++){
-                if (array[row][column]  == 0)
-                    return false;
-            }
-        }
-        return ans;
-    }
-
-    public static int [][] diagonaliseGrid(int gridCount){
-        int [][] array = new int [gridCount][gridCount];
-        int sqrt = (int) Math.sqrt(gridCount);
-        ArrayList <Integer >arrayList = new ArrayList<Integer>();
-        for (int i = 1; i < gridCount+1; i++) {
-            arrayList.add(i);
-        }
-        Collections.shuffle(arrayList);
-        //step - 1 solve diagonals.
-        { // each sqaure-line
-            int factor = 0;
-            int index = 0;
-            for (int sq = 0; sq < gridCount; sq += sqrt) {
-                for (int x = 0; x < sqrt; x++) {
-                    array[sq][x+sq] = arrayList.get(index);
-                    index++;
-                }
-            }
-        }
-        return array;
-    }
 
     /**
      * solve game brute force
@@ -452,7 +416,6 @@ public class Helper {
                         } else {
                             array[row][column] = 0;
                         }
-
                     }
                     return false;
                 }
@@ -460,6 +423,7 @@ public class Helper {
         }
         return true;
     }
+
 
     /**
      * Outer usage
@@ -470,7 +434,5 @@ public class Helper {
     public static int getGridNum (int integer, int factor){
         return integer/factor;
     }
-
-
 
 }

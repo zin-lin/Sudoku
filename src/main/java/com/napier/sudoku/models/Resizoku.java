@@ -16,9 +16,21 @@ public class Resizoku {
     public int [][] grid;
     public int count;
 
+    /**
+     * Constructor
+     * @param gridCount
+     */
     public Resizoku(int gridCount) {
         count = gridCount;
         grid = new int[gridCount][gridCount];
+    }
+    /**
+     * Constructor
+     * @param gridCount
+     */
+    public Resizoku(int x, int y) {
+        count = x>y ? x:y;
+        grid = new int[y][x];
     }
 
     /**
@@ -92,8 +104,6 @@ public class Resizoku {
         Data data = getData(array);
         ArrayList<Integer> duplicates = data.duplicates;
         ArrayList<Integer> needs = data.needs;
-
-
         for (int need : needs){
             boolean found = false;
             for (int duplicate: duplicates){
@@ -161,6 +171,7 @@ public class Resizoku {
      * Brute force solving way of Sudoku
      */
     public void solveBruteForce(){
+        long t = System.currentTimeMillis();
         while (true){
             grid = new int[count][count];
             int[][] array = grid;
@@ -189,6 +200,12 @@ public class Resizoku {
             this.fix();
             if (checkStartEnd())
                 break;
+            long t1 = System.currentTimeMillis();
+            if (t1-t >3000){
+                SudokuGrid sudokuGrid = new SudokuGrid(count);
+                sudokuGrid.getGame();
+                break;
+            }
         }
 
         int sqrt = (int)Math.sqrt(grid.length);
@@ -208,36 +225,6 @@ public class Resizoku {
 
     }
 
-
-    /**
-     Print the sudoku 9x9 in fashion
-     @param array
-     */
-    public static void printSudoku (int [][]array) {
-        int sqrt = (int)Math.sqrt(array.length);
-        for (int i = 0; i < array.length; i++){
-            for (int j = 0; j < array[i].length; j +=sqrt ){
-                try {
-                    for (int k = 0; k < sqrt; k++) {
-
-                        String code  = (array[i][j+k] == 0) ? "-": (array[i][j+k]+"");
-                        System.out.print(((array[i][j+k] == 0) ? "-": (array[i][j+k]+"") )+ (code.length()==2?" ":"  "));
-
-                    }
-
-                    System.out.print("| ");
-                }catch (Exception err){
-                    //Do Abs Nth
-                }
-            }
-            System.out.print("\n");
-            if ((i+1) % sqrt == 0) {
-                for (int j = 0; j < (array.length*3)+(sqrt-1)*2; j++)
-                    System.out.print("-");
-                System.out.print("\n");
-            }
-        }
-    }
 
     /**
      * Outter usage
@@ -292,6 +279,4 @@ public class Resizoku {
     public boolean check (int row, int column, int num){
         return check(this.grid, row, column, num);
     }
-
-
 }

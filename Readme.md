@@ -19,9 +19,12 @@
 - `IntelliJ`📱
 - `Dockerfile` 🐳
 - Preview Gameplay
-- ![alt text](./demo1.png)
+- ![alt text](./3x3.png)
 - Preview Help mode
-- ![alt text](./demo2.png)
+- ![alt text](./7xh.png)
+- - Preview irregular grids
+- ![alt text](./7x7.png)
+- ![alt text](./sxs.png)
 
 ### Developer Mode `--alpha`
 available syntax and commands

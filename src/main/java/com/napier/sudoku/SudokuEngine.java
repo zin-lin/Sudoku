@@ -119,7 +119,7 @@ public class SudokuEngine {
                 Tree<Integer> random;
                 if (start) {
                     // randomise the values to be ommitted
-                    if (xAxis ==9) {
+                    if (xAxis ==9 && yAxis ==9) {
                         random = Randomiser.generateTreeList(level, xAxis);
                     }
                     else{
@@ -132,9 +132,9 @@ public class SudokuEngine {
                     }
                 } else {
                     // random is now a balance tree. Usually from 1-9 would be a linear architecture
-                        // with balancedTree from helper class, this can be done
-                        random = new Tree<>(null);
-                        random = Helper.balancedTree(1, yAxis);
+                    // with balancedTree from helper class, this can be done
+                    random = new Tree<>(null);
+                    random = Helper.balancedTree(1, yAxis>xAxis?yAxis:xAxis);
 
                 }
                 // set up strings
@@ -251,7 +251,6 @@ public class SudokuEngine {
                 }
             }// for
 
-            Helper.printSudoku(this.array);
             showPrompts();
         }// if
     }
@@ -294,7 +293,26 @@ public class SudokuEngine {
                 array[i][i1] = game[i][i1];
             }
         }
-        Helper.printSudoku(this.array);
+        _writeGrid_cmd(true);
+
+    }
+
+    /**
+     Write in Sudoku Grid
+     */
+    private  void _writeGridStart(int x, int y, boolean irreg){
+        Resizoku generator = new Resizoku(xAxis,yAxis);
+        // I want a clear console here
+        _separate();
+        generator.solveBruteForce();
+        this.game = generator.grid ; // get the array
+        System.out.println(" "+ game.length+ " "+ game[0].length);
+        this.array = new int [yAxis][xAxis];
+        for(int i = 0; i<array.length; i++){
+            for (int i1 = 0; i1< array[i].length; i1++ ){
+                array[i][i1] = game[i][i1];
+            }
+        }
         _writeGrid_cmd(true);
 
     }
@@ -438,6 +456,32 @@ public class SudokuEngine {
             return;
 
         }
+
+        else if (value.startsWith("H")|| value.startsWith("h")){
+            // Option de Help
+            try{
+                String posiOne = value.split(" ")[1];
+                int num = Integer.parseInt(posiOne);
+                System.out.println("SS: " + num);
+                int larger = xAxis > yAxis ? xAxis : yAxis;
+                if (num >= 0 && num <= larger){
+                    int x = Helper.getNumberOfGaps(array, game, num);
+                    System.out.println("Numbers of "+ num + " left: "+ x);
+                    _separate();
+                    _writeGrid_cmd(false);
+                }else {
+                    _separate();
+                    _writeGrid_cmd(false);
+                }
+
+            }catch (Exception e){
+                _separate();
+                _writeGrid_cmd(false);
+            }
+            return;
+
+        }
+
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
             // Do Nth
             return;
@@ -603,6 +647,18 @@ public class SudokuEngine {
         if (!isTimed) {// write sudoku grid
             _writeGridStart(this.yAxis, this.xAxis);
         }
+    }
+
+    /**
+     * Constructor
+     */
+    public SudokuEngine(Vector vector){
+
+        help = false;
+        this.xAxis = vector.getColumn(); this.yAxis = vector.getRow(); // set things
+        cells = new Tree<>(null); // Initiating
+        forceStop = false;
+        _writeGridStart(this.yAxis, this.xAxis, true);
     }
 
     public void startGame(){
