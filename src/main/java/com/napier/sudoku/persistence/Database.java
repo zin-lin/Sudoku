@@ -9,27 +9,19 @@ import com.napier.sudoku.models.Action;
 import com.napier.sudoku.models.Vector;
 import com.napier.sudoku.models.memory.Tree;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
-    /**
-    getGames get all the games from the database
-    <return> games :: Tree <String>
-     */
-    public static Tree <String> getGames (){
-        Tree <String> tree = new Tree<>(null);
-        File currentFolder = new File("./");
-        File [] list = currentFolder.listFiles();
-        for (File file: list){
-            if (file.getName().endsWith(".csv") && file.getName().startsWith("annexsudoku"))
-                tree.add(file.getName());
-        }
-        return tree;
-    }
 
     /**
     write Database will write file for each game.
@@ -38,33 +30,109 @@ public class Database {
     public static void writeDatabase(String name) throws IOException {
         FileWriter fileWriter = new FileWriter(name);
         fileWriter.append("");
+        fileWriter.close();
+    }
+
+
+    /**
+     add an action to the database file
+     <param> file :: String
+     <param> origin :: Vector
+     <param> destination :: Vector
+     */
+    public static void addAction (Action action, String file) throws IOException {
+        FileWriter fileWriter = new FileWriter(file, true);
+        BufferedWriter writer = new BufferedWriter(fileWriter);
+        writer.write(action.toString());
+        writer.newLine();
+        writer.close();
+        fileWriter.close();
     }
 
     /**
-    add a movement to the file
-    <param> file :: String
-    <param> origin :: Vector
-    <param> destination :: Vector
+     add a movement to the file
+     <param> file :: String
+     <param> origin :: Vector
+     <param> destination :: Vector
      */
-    public static void addMove (String file, Vector origin, Vector destination) throws IOException {
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.append("<MOVE>," +(origin.getRow()+"-"+origin.getColumn())+","+
-                (destination.getRow()+"-"+destination.getColumn())+ "\n");
+    public static void addLine (String str, String file) throws IOException {
+        FileWriter fileWriter = new FileWriter(file, true);
+        BufferedWriter writer = new BufferedWriter(fileWriter);
+        writer.write(str.toString());
+        writer.newLine();
+        writer.close();
+        fileWriter.close();
+    }
+
+
+    /**
+     load games
+     */
+    public static ArrayList<String> loadGames () {
+        File folder = new File("./"); // replace with your folder path
+        File[] listOfFiles = folder.listFiles();
+        ArrayList<String> games = new ArrayList<>();
+        for (File file : listOfFiles) {
+            if (file.isFile() && file.getName().endsWith(".anxgame")) {
+                games.add(file.getName().replace(".anxgame", ""));
+            }
+        }
+        return games ;
+    }
+
+
+    /**
+     * load a single list of commands of a game
+     * @param fileName
+     * @return
+     */
+    public static ArrayList<String> loadGame (String fileName){
+        Path filePath = Paths.get(fileName);
+        ArrayList <String> ans = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
+            for (String line : lines) {
+                if (!line.equals("\n"))
+                    ans.add(line);
+            }
+        } catch (IOException e) {
+        }
+        return ans;
     }
 
     /**
-    add a movement to the file
+     * load the grid
+     * @param fileName
+     * @return
      */
-    public static void addInsertion (String file, Vector cell, int oldVal, int newVal) throws IOException {
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.append("<INS>," +(cell.getRow()+"-"+cell.getColumn())+","+
-                oldVal+","+ newVal + "\n");
+    public static int [][] loadGrid (String fileName){
+        Path filePath = Paths.get(fileName);
+        int length = 0;
+        ArrayList <String> ans = new ArrayList<>();
+        try {
+            List<String> lines = Files.readAllLines(filePath, StandardCharsets.UTF_8);
+            for (String line : lines){
+                if (!line.startsWith("\n")) {
+                    ans.add(line);
+                    length = (line.split(",")).length;
+                }
+            }
+        } catch (IOException e) {
+        }
+        int [][] returner = new int [ans.size()][length];
+        for (int row = 0; row < returner.length; row++){
+            for (int column = 0; column < returner[row].length; column++){
+                try {
+                    String thing = (ans.get(row).split(","))[column];
+                    int val = Integer.parseInt(thing);
+                    returner[row][column] = val;
+                }catch (Exception e) {
+
+                }
+            }
+        }
+        return returner;
     }
 
-    /**
-    add an action in.
-     */
-    public static void addStack (ArrayList<Action> actions){
 
-    }
 }

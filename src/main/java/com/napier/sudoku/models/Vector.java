@@ -50,6 +50,18 @@ public class Vector {
     }
 
     /**
+     * public constructor
+     * @param row
+     * @param column
+     */
+    public Vector(Vector vector)
+    {
+        // row is Y Axis where X is column
+        this.row = vector.row;
+        this.column = vector.column;
+    }
+
+    /**
     Override the toString method
      */
     @Override

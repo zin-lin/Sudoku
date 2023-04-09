@@ -1,8 +1,10 @@
 package com.napier.sudoku;
 import com.napier.sudoku.models.Vector;
+import com.napier.sudoku.persistence.Database;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -46,7 +48,7 @@ public class GameEngine {
         System.out.println("1) Standard Sudoku Game");
         System.out.println("2) Irregular Sudoku Game");
         System.out.println("3) Hardcore Sudoku");
-        System.out.println("4) settings");
+        System.out.println("4) replay games");
         System.out.println("q to quit");
 
         Scanner scanner = new Scanner(System.in);
@@ -180,9 +182,14 @@ public class GameEngine {
                     x = 0; y=0;
                     break;
                 }
-                SudokuEngine sudokuEngine = new SudokuEngine(new Vector(x,y));
-                sudokuEngine = null;
-                _game();
+                try{
+                    SudokuEngine sudokuEngine = new SudokuEngine(new Vector(x, y));
+                    sudokuEngine = null;
+                    _game();
+                }catch (Exception e)
+                {
+                    _game();
+                }
                 break;
 
             }
@@ -206,7 +213,25 @@ public class GameEngine {
 
             }
             case 4: {
-                // settings
+                // replays
+                ArrayList<String> games = Database.loadGames();
+                int index = 1;
+                for (String game : games){
+                    System.out.println(index + ". " + game);
+                    index++;
+                }
+                String game = scanner.nextLine();
+                try {
+                    ArrayList<String>cmds = Database.loadGame(game+ ".anxgame");
+                    System.out.println(cmds.size() );
+                    int [][] array = Database.loadGrid(game+ ".anxgrid");
+                    ReplayEngine replayEngine = new ReplayEngine(array, cmds);
+                    replayEngine = null;
+                    _game();
+
+                }catch (Exception e){
+                    _game();
+                }
 
             }
             case -1:{

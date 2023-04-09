@@ -1,12 +1,11 @@
 package com.napier.sudoku;
 
-import com.napier.sudoku.models.Helper;
-import com.napier.sudoku.models.Resizoku;
-import com.napier.sudoku.models.SudokuGrid;
+import com.napier.sudoku.models.*;
 import com.napier.sudoku.models.memory.Tree;
-import com.napier.sudoku.models.Vector;
+import com.napier.sudoku.persistence.Database;
 import com.napier.sudoku.random.Randomiser;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -30,6 +29,41 @@ public class SudokuEngine {
     private int level;
     private boolean help;
     private Tree<Vector> cells;
+
+    private ArrayList<Action> actions;
+    private int index;
+
+    /**
+     * write to file :: undo
+     * @throws IOException
+     */
+    private void writeToUndo() throws IOException {
+
+    }
+
+    /**
+     * write to file :: redo
+     * @throws IOException
+     */
+    private void writeToRedo() throws IOException {
+
+    }
+
+    /**
+     * retrive from file :: undo
+     * @throws IOException
+     */
+    private void retrieveFromUndo() throws IOException {
+
+    }
+
+    /**
+     * retrieve to redo
+     * @throws IOException
+     */
+    private void retrieveToRedo() throws IOException {
+
+    }
 
     /**
      * resetting the game
@@ -59,7 +93,7 @@ public class SudokuEngine {
     /**
     separator - clearing the console screen
      */
-    private static void _separate ()  {
+    public static void separate ()  {
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -111,7 +145,22 @@ public class SudokuEngine {
             solved = Helper.checkGamneEnd(array, cells, yAxis, xAxis); // everyting check is with binary search tree so it's pretty fast.
         }
         if (solved) {
-            System.out.println(ANSI_GREEN + "Solved!" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "Solved!" + ANSI_RESET+", would you like to save game?");
+            Scanner scanner = new Scanner(System.in);
+            String yes = scanner.nextLine();
+            if (yes.equals("Y") || yes.equals("y")){
+                System.out.println("Please give a name to the game");
+                String fileName = scanner.nextLine() + ".anxgame";
+                try {
+                    Database.writeDatabase(fileName);
+                    for (Action action: actions)
+                        Database.addAction(action, fileName);
+                }catch (Exception e){
+
+                }
+            }else {
+
+            }
         }
         // if not solved
         if (!solved){
@@ -263,7 +312,7 @@ public class SudokuEngine {
     private  void _writeGridStart(int yAxis, int xAxis){
         SudokuGrid generator = new SudokuGrid(yAxis);
         // I want a clear console here
-        _separate();
+        separate();
         this.game = generator.getGame(); // get the array
         this.array = new int [yAxis][xAxis];
         for(int i = 0; i<game.length; i++){
@@ -284,7 +333,7 @@ public class SudokuEngine {
     private  void _writeGridStart(int gridcount){
         Resizoku generator = new Resizoku(yAxis);
         // I want a clear console here
-        _separate();
+        separate();
         generator.solveBruteForce();
         this.game = generator.grid ; // get the array
         this.array = new int [yAxis][xAxis];
@@ -303,7 +352,7 @@ public class SudokuEngine {
     private  void _writeGridStart(int x, int y, boolean irreg){
         Resizoku generator = new Resizoku(xAxis,yAxis);
         // I want a clear console here
-        _separate();
+        separate();
         generator.solveBruteForce();
         this.game = generator.grid ; // get the array
         System.out.println(" "+ game.length+ " "+ game[0].length);
@@ -367,7 +416,7 @@ public class SudokuEngine {
                     if (!cells.contains(new Vector(i, column))) {
                         this.cell.setColumn(column);
                         this.cell.setRow(i);
-                        _separate();
+                        separate();
                         found = true;
                         _writeGrid_cmd(false);
                         return;
@@ -375,7 +424,7 @@ public class SudokuEngine {
                 }
             }
             if (!found) {
-                _separate();
+                separate();
                 _writeGrid_cmd(false);
             }
             return;
@@ -393,7 +442,7 @@ public class SudokuEngine {
                     if (!cells.contains(new Vector(i, column))) {
                         this.cell.setColumn(column);
                         this.cell.setRow(i);
-                        _separate();
+                        separate();
                         found = true;
                         _writeGrid_cmd(false);
                         return;
@@ -401,7 +450,7 @@ public class SudokuEngine {
                 }
             }
             if (!found) {
-                _separate();
+                separate();
                 _writeGrid_cmd(false);
             }
             return;
@@ -415,14 +464,14 @@ public class SudokuEngine {
 
                 if (!cells.contains(new Vector(cell.getRow(), column))){
                     this.cell.setColumn(column);
-                    _separate();
+                    separate();
                     found = true;
                     _writeGrid_cmd(false);
                     break;
                 }
             }
             if (!found){
-                _separate();
+                separate();
                 _writeGrid_cmd(false);
             }
             return;
@@ -435,14 +484,14 @@ public class SudokuEngine {
                 if (!cells.contains(new Vector(cell.getRow(), column))){
                     found = true;
                     this.cell.setColumn(column);
-                    _separate();
+                    separate();
                     _writeGrid_cmd(false);
                     break;
                 }
 
             }
             if (!found) {
-                _separate(); // call separator function
+                separate(); // call separator function
                 _writeGrid_cmd(false);
             }
             return;
@@ -451,7 +500,7 @@ public class SudokuEngine {
         else if (value.equals("H")|| value.equals("h")){
             // Option de Help
             help = !help;
-            _separate();
+            separate();
             _writeGrid_cmd(false);
             return;
 
@@ -467,15 +516,15 @@ public class SudokuEngine {
                 if (num >= 0 && num <= larger){
                     int x = Helper.getNumberOfGaps(array, game, num);
                     System.out.println("Numbers of "+ num + " left: "+ x);
-                    _separate();
+                    separate();
                     _writeGrid_cmd(false);
                 }else {
-                    _separate();
+                    separate();
                     _writeGrid_cmd(false);
                 }
 
             }catch (Exception e){
-                _separate();
+                separate();
                 _writeGrid_cmd(false);
             }
             return;
@@ -483,10 +532,69 @@ public class SudokuEngine {
         }
 
         else if (value.equals("Q") || value.equals("q") || value.equals("quit") || value.equals("Quit")|| value.equals("QUIT")){
-            // Do Nth
+            System.out.println("Do you want to save the game");
+            String yes = scanner.nextLine();
+            if (yes.equals("Y") || yes.equals("y")){
+                System.out.println("Please give a name to the game");
+                String textIput =scanner.nextLine();
+                String fileName =  textIput + ".anxgame";
+                String fileNameGrid = textIput + ".anxgrid";
+                try {
+                    Database.writeDatabase(fileName);
+                    for (Action action: actions)
+                        Database.addAction(action, fileName);
+                    Database.writeDatabase(fileNameGrid);
+                    for (int row = 0; row < game.length; row++){
+                        String line = "";
+                        for (int col = 0; col < game[row].length; col++){
+                            line += ((cells.contains(new Vector(row,col)) ? array[row][col]: 0) + (col == game[row].length ?"":","));
+                        }
+                        Database.addLine(line, fileNameGrid);
+                    }
+
+                }catch (Exception e){
+
+                }
+            }
             return;
 
         }
+
+        else if (value.equals("u") || value.equals("U") || value.equals("undo")|| value.equals("Undo")){
+            if (index >=0){
+                Action action = actions.get(index);
+                index--;
+                Vector v = action.getCurrentVector();
+                int row = v.getRow();
+                int col = v.getColumn();
+                int val = action.getOldValue();
+                for (Action a : actions)
+                    System.out.println(a.toString());
+
+                array[row][col] = val;
+            }
+
+            separate();
+            _writeGrid_cmd(false);
+            return ;
+        }
+        else if (value.equals("r") || value.equals("R") || value.equals("redo")|| value.equals("Redo")){
+            if (index < actions.size()){
+
+                index++;
+                Action action = actions.get(index);
+                Vector v = action.getCurrentVector();
+                int row = v.getRow();
+                int col = v.getColumn();
+                int val = action.getValue();
+                System.out.println(val);
+                array[row][col] = val;
+            }
+            separate();
+            _writeGrid_cmd(false);
+            return ;
+        }
+
         else if (value.equals("dev") || value.equals("DEV")|| value.equals("Dev") ){
             final String ANSI_BLUE = "\u001B[34m";  final String ANSI_RESET = "\u001B[0m";  final String ANSI_YELLOW = "\u001b[33m";
 
@@ -554,10 +662,23 @@ public class SudokuEngine {
             try {
                 // parsing to value
                 int val = Integer.parseInt(value);
-                if (val >= 0 || val <= yAxis) {
+                int larger = yAxis> xAxis? yAxis: xAxis;
+                if (val >= 0 && val <= larger) {
+                    int old = array[cell.getRow()][cell.getColumn()];
                     array[cell.getRow()][cell.getColumn()] = val;
+                    Action action = new Action("<INS>", new Vector(cell), new Vector(cell), val, old);
+                    if (index < actions.size() - 1) {
+                        ArrayList<Action> newActions = new ArrayList<Action>();
+                        for (int i = 0; i < index + 1; i++) {
+                            newActions.add(actions.get(i));
+                        }
+                        actions = newActions;
+                    }
+                    actions.add(action);
+                    System.out.println(actions.size());
+                    index = actions.size()-1;
                 }
-                _separate();
+                separate();
                 _writeGrid_cmd(false);
             }
             catch (Exception err){
@@ -566,7 +687,6 @@ public class SudokuEngine {
                     if (value.startsWith("(") && value.endsWith(")")){
                         String v1 =value.substring(1,2);
                         String v2 =value.substring(3,4);
-
                         int row = Integer.parseInt(v1);
                         int column = Integer.parseInt(v2);
                         if (row >= 0 && row < yAxis && column >= 0 && column < xAxis) {
@@ -574,21 +694,21 @@ public class SudokuEngine {
                                 this.cell.setColumn(column);
                                 this.cell.setRow(row);
 
-                                _separate();
+                                separate();
                                 _writeGrid_cmd(false);
                             }
                         }else {
-                            _separate();
+                            separate();
                             _writeGrid_cmd(false);
                         }
                     }
                     else {
-                        _separate();
+                        separate();
                         _writeGrid_cmd(false);
                     }
 
                 }catch (Exception err1){
-                    _separate();
+                    separate();
                     _writeGrid_cmd(false);
                 }
             }
@@ -609,6 +729,7 @@ public class SudokuEngine {
 
     public SudokuEngine(int gridCount){
 
+        this.actions = new ArrayList<Action>();
         this.level = 5;
         help = false;
         this.xAxis = gridCount; this.yAxis = gridCount; // set things
@@ -625,7 +746,9 @@ public class SudokuEngine {
      * @param level, hard, medium, easy
      */
     public SudokuEngine(int count, int level){
+        this.actions = new ArrayList<Action>();
         this.level = level;
+        index = 0;
         help = false;
         this.xAxis = count; this.yAxis = count; // set things
         cells = new Tree<>(null); // Initiating
@@ -639,6 +762,8 @@ public class SudokuEngine {
      * Constructor
      */
     public SudokuEngine(int count, int level, boolean isTimed){
+        this.actions = new ArrayList<Action>();
+        index = 0;
         this.level = level;
         help = false;
         this.xAxis = count; this.yAxis = count; // set things
@@ -653,7 +778,8 @@ public class SudokuEngine {
      * Constructor
      */
     public SudokuEngine(Vector vector){
-
+        this.actions = new ArrayList<Action>();
+        index = 0;
         help = false;
         this.xAxis = vector.getColumn(); this.yAxis = vector.getRow(); // set things
         cells = new Tree<>(null); // Initiating
