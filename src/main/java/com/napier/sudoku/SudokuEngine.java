@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
    Class SudokuEngine
-   Author : Zin Lin Htun
+   @author : Zin Lin Htun
    @matric : 40542237@live.napier.ac.uk*/
 
 public class SudokuEngine {
@@ -568,8 +568,6 @@ public class SudokuEngine {
                 int row = v.getRow();
                 int col = v.getColumn();
                 int val = action.getOldValue();
-                for (Action a : actions)
-                    System.out.println(a.toString());
 
                 array[row][col] = val;
             }

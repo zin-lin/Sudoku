@@ -2,7 +2,7 @@ package com.napier.sudoku.persistence;
 
 /**
  Class Database :: to deal with data persistence for undo and redo
- Author : Zin Lin Htun
+ @author : Zin Lin Htun
  @matric : 40542237@live.napier.ac.uk */
 
 import com.napier.sudoku.models.Action;

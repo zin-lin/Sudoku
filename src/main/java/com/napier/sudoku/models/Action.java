@@ -2,7 +2,7 @@ package com.napier.sudoku.models;
 
 /**
  * This class represents an action taken by the user
- * @Author: Zin Lin Htun
+ * @author: Zin Lin Htun
  * @matric number: 40542237
  */
 public class Action {

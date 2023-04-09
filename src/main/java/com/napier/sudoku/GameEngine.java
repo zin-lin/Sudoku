@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
 Game Engine is the entry point
-Author : Zin Lin Htun
+@author : Zin Lin Htun
 @matric : 40542237@live.napier.ac.uk
 */
 public class GameEngine {
@@ -216,9 +216,15 @@ public class GameEngine {
                 // replays
                 ArrayList<String> games = Database.loadGames();
                 int index = 1;
-                for (String game : games){
-                    System.out.println(index + ". " + game);
-                    index++;
+                if (games.size()>0){
+                    for (String game : games) {
+                        System.out.println(index + ". " + game);
+                        index++;
+                    }
+                }
+                else {
+                    System.out.println("Nth here");
+                    _game();
                 }
                 String game = scanner.nextLine();
                 try {
