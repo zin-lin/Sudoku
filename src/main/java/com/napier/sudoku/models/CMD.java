@@ -3,6 +3,7 @@ package com.napier.sudoku.models;
 import com.napier.sudoku.SudokuEngine;
 import jdk.jfr.Description;
 
+@Deprecated
 @Description("Tester")
 public class CMD {
     /*

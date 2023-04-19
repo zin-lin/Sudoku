@@ -1,10 +1,14 @@
 package com.napier.sudoku.random;
-
 import com.napier.sudoku.models.memory.Tree;
 
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Ranomiser Class
+ * @author : Zin Lin Htun
+ */
 
 // Randomiser class tests the randomness of number generation to get unique random numbers
 public class Randomiser {
@@ -25,7 +29,14 @@ public class Randomiser {
         return  array;
     }
 
-    // generate using tree
+
+
+    /**
+     * Generate using tree structure
+     * @param iteration
+     * @param maxBound
+     * @return
+     */
     public static Tree<Integer> generateTreeList (int iteration, int maxBound){
 
         Tree<Integer> array = new Tree<>(null,true);

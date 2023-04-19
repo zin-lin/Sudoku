@@ -11,10 +11,16 @@ import java.util.Scanner;
  */
 public class ReplayEngine {
 
+    /**
+     * region of private
+     */
     private int [][] array;
     private ArrayList <String> cmds;
     private int index;
 
+    /**
+     * replay function
+     */
     private void replay (){
         SudokuEngine.separate();
         System.out.println("Press n to continue, b to back off and q to quit");
@@ -53,6 +59,14 @@ public class ReplayEngine {
         }
         return;
     }
+
+    //public
+
+    /**
+     * Constructor
+     * @param array
+     * @param cmds
+     */
     public ReplayEngine (int [][] array, ArrayList<String> cmds) {
         this.array = array;
         this.cmds = cmds;

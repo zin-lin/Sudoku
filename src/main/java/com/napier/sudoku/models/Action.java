@@ -98,6 +98,10 @@ public class Action {
         this.oldValue = oldValue;
     }
 
+    /**
+     * To String Override
+     * @return
+     */
     @Override
     public String toString() {
         if (this.action.equals("<MOVE>"))
@@ -111,6 +115,11 @@ public class Action {
                     ","+ oldValue  +"," + value ;
     }
 
+    /**
+     * get Action from String Structure
+     * @param action
+     * @return
+     */
     public static Action getActionFromString(String action) {
         String [] args = action.split(",");
         Vector v = new Vector(Integer.parseInt(args[1].split("-")[0]), Integer.parseInt(args[1].split("-")[1] ));

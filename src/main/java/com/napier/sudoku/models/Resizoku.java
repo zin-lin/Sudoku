@@ -98,6 +98,11 @@ public class Resizoku {
         return data;
     }
 
+    /**
+     * serach forward fixing method
+     * @param index
+     * @param array
+     */
     private void searchAndFixLine(int index, int [] array){
         int sqrt = (int)Math.sqrt(array.length);
         int len = array.length;

@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class SudokuEngine {
 
     // private materials
-    private int count = 0;
+
     private int xAxis;
     private int yAxis;
     private Vector cell;
@@ -716,15 +716,20 @@ public class SudokuEngine {
 
     }
 
-    public boolean isForceStop() {
-        return forceStop;
-    }
 
+    /**
+     * Setting Force Stop
+     * @param forceStop
+     */
     public void setForceStop(boolean forceStop) {
-        System.out.println("forced");
+        //System.out.println("forced");
         this.forceStop = forceStop;
     }
 
+    /**
+     * Constructor
+     * @param gridCount
+     */
     public SudokuEngine(int gridCount){
 
         this.actions = new ArrayList<Action>();
@@ -785,10 +790,16 @@ public class SudokuEngine {
         _writeGridStart(this.yAxis, this.xAxis, true);
     }
 
+    /**
+     * test starting
+     */
     public void startGame(){
         _writeGridStart(this.yAxis, this.xAxis);
     }
 
+    /**
+     * finaliser
+     */
     public void finalizeObject() {
         System.out.println("Exiting Sudoku Engine---------------------------------------------------------------->  " );
 
