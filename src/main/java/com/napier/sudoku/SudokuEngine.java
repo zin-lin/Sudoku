@@ -355,7 +355,6 @@ public class SudokuEngine {
         separate();
         generator.solveBruteForce();
         this.game = generator.grid ; // get the array
-        System.out.println(" "+ game.length+ " "+ game[0].length);
         this.array = new int [yAxis][xAxis];
         for(int i = 0; i<array.length; i++){
             for (int i1 = 0; i1< array[i].length; i1++ ){
