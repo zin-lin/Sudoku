@@ -1,7 +1,10 @@
 package com.napier.sudoku;
+import com.napier.sudoku.models.Helper;
 import com.napier.sudoku.models.Vector;
+import com.napier.sudoku.models.memory.Tree;
 import com.napier.sudoku.persistence.Database;
 
+import javax.naming.ldap.PagedResultsResponseControl;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -26,7 +29,12 @@ public class GameEngine {
         gameThread.start();
         try {
             Thread.sleep(timeLimit);
-            System.out.println("Game Over, time limit of " + timeLimit + " seconds reached, enter any key to exit");
+            try{
+            if (!Helper.checkGamneEnd(engine.getArray(), new Tree<Vector>(null), 9, 9))
+                System.out.println("Game Over, time limit of " + timeLimit/1000 + " seconds reached, enter any key to exit");
+            }catch (Exception err){
+
+            }
             gameThread.setStop(true);
         } catch (InterruptedException e) {
             System.out.println("Game is Finished");
@@ -171,13 +179,19 @@ public class GameEngine {
             }
             case 2: {
                 // Customs
-                System.out.println("Enter row and column: ");
+                System.out.println("Enter row and column must be larger than 9: ");
                 int x;
                 int y;
 
                 try {
+
                     x = Integer.parseInt(scanner.nextLine());
                     y = Integer.parseInt(scanner.nextLine());
+                    if (x < 9 || y < 9){
+                        System.out.println("Input not valid as explained above");
+                        return ;
+                    }
+                    x = (int)((int)Math.sqrt(x) * (int)Math.sqrt(x)) ; //ensure one must be sqrt
                 }catch (Exception exception){
                     x = 0; y=0;
                     break;
@@ -188,6 +202,7 @@ public class GameEngine {
                     _game();
                 }catch (Exception e)
                 {
+                    System.out.println(e.getMessage());
                     _game();
                 }
                 break;
@@ -258,7 +273,12 @@ public class GameEngine {
      */
     public static void main (String [] args){
         // Call the game function
-        _game();
+        try {
+            _game();
+        }catch (Exception e){
+            System.out.println("unexpected exception occured");
+            _game();
+        }
     }
 
 }

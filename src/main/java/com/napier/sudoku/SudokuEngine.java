@@ -510,7 +510,7 @@ public class SudokuEngine {
             try{
                 String posiOne = value.split(" ")[1];
                 int num = Integer.parseInt(posiOne);
-                System.out.println("SS: " + num);
+
                 int larger = xAxis > yAxis ? xAxis : yAxis;
                 if (num >= 0 && num <= larger){
                     int x = Helper.getNumberOfGaps(array, game, num);
@@ -560,7 +560,7 @@ public class SudokuEngine {
         }
 
         else if (value.equals("u") || value.equals("U") || value.equals("undo")|| value.equals("Undo")){
-            if (index >=0){
+            if (index >=0 && actions.size()>0){
                 Action action = actions.get(index);
                 index--;
                 Vector v = action.getCurrentVector();
@@ -794,6 +794,13 @@ public class SudokuEngine {
      */
     public void startGame(){
         _writeGridStart(this.yAxis, this.xAxis);
+    }
+
+    /**
+     *
+     */
+    public int [][] getArray(){
+        return array;
     }
 
     /**

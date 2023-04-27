@@ -26,11 +26,18 @@ public class Resizoku {
     }
     /**
      * Constructor
-     * @param gridCount
+     * @param x - row
+     * @param y - column
      */
     public Resizoku(int x, int y) {
-        count = x>y ? x:y;
-        grid = new int[y][x];
+        if (x >= 9 || y >= 9){
+            count = x > y ? x : y;
+            grid = new int[y][x];
+        }
+        else {
+            System.out.println("Bad input, one value must be  sqaure number greater than 9 or equal");
+            return;
+        }
     }
 
     /**

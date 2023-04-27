@@ -22,7 +22,6 @@ public class Helper {
      */
     public static int getNumberOfGaps (int [][] array, int [][] game, int req ) {
         int count = 0;
-        int totalCount = 0;
         int x = game.length;
         int y = game[0].length;
         for (int row = 0;row< x; row++){
@@ -31,15 +30,10 @@ public class Helper {
                     count++;
             }
         }
-        for (int row = 0; x < x; row++){
-            for (int col = 0; col < y; col++){
-                if (game[row][col] == req)
-                    totalCount++;
-            }
-        }
 
-        System.out.println(count);
-        System.out.println(totalCount);
+        int totalCount = x < y ? x: y;
+        System.out.println("On board: " + count);
+        System.out.println("Should have: " + totalCount);
         return totalCount - count;
     }
 
